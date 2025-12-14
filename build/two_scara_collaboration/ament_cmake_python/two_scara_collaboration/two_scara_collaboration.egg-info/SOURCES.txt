@@ -1,9 +1,11 @@
 setup.cfg
 setup.py
 two_scara_collaboration/__init__.py
+two_scara_collaboration/automation_manager.py
 two_scara_collaboration/block_publisher.py
 two_scara_collaboration/block_spawner.py
 two_scara_collaboration/collision_avoidance.py
+two_scara_collaboration/conveyor_driver.py
 two_scara_collaboration/gripper_action_server.py
 two_scara_collaboration/kinematics.py
 two_scara_collaboration/scara_left_motion_planner.py

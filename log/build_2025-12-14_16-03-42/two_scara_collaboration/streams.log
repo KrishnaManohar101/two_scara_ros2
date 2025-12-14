@@ -1,0 +1,110 @@
+[0.015s] Invoking command in '/home/km/two_scara_ros2/build/two_scara_collaboration': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/km/two_scara_ros2/src/two_scara_collaboration -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/km/two_scara_ros2/install/two_scara_collaboration
+[0.381s] -- The C compiler identification is GNU 11.4.0
+[1.951s] -- The CXX compiler identification is GNU 11.4.0
+[3.278s] -- Detecting C compiler ABI info
+[3.653s] -- Detecting C compiler ABI info - done
+[3.662s] -- Check for working C compiler: /usr/bin/cc - skipped
+[3.662s] -- Detecting C compile features
+[3.663s] -- Detecting C compile features - done
+[3.667s] -- Detecting CXX compiler ABI info
+[4.046s] -- Detecting CXX compiler ABI info - done
+[4.055s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[4.056s] -- Detecting CXX compile features
+[4.057s] -- Detecting CXX compile features - done
+[4.059s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[4.251s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[4.334s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[4.368s] -- Found rclpy: 3.3.19 (/opt/ros/humble/share/rclpy/cmake)
+[4.370s] -- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)
+[4.852s] -- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[4.858s] -- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[4.868s] -- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[4.882s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[4.903s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[4.951s] -- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+[4.973s] -- Found control_msgs: 4.8.0 (/opt/ros/humble/share/control_msgs/cmake)
+[5.257s] -- Configuring done
+[5.265s] -- Generating done
+[5.268s] -- Build files have been written to: /home/km/two_scara_ros2/build/two_scara_collaboration
+[5.278s] Invoked command in '/home/km/two_scara_ros2/build/two_scara_collaboration' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/km/two_scara_ros2/src/two_scara_collaboration -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/km/two_scara_ros2/install/two_scara_collaboration
+[5.282s] Invoking command in '/home/km/two_scara_ros2/build/two_scara_collaboration': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/km/two_scara_ros2/build/two_scara_collaboration -- -j16 -l16
+[5.347s] Built target ament_cmake_python_symlink_two_scara_collaboration_setup
+[5.347s] Built target ament_cmake_python_symlink_two_scara_collaboration
+[5.635s] running egg_info
+[5.636s] creating two_scara_collaboration.egg-info
+[5.636s] writing two_scara_collaboration.egg-info/PKG-INFO
+[5.637s] writing dependency_links to two_scara_collaboration.egg-info/dependency_links.txt
+[5.637s] writing top-level names to two_scara_collaboration.egg-info/top_level.txt
+[5.637s] writing manifest file 'two_scara_collaboration.egg-info/SOURCES.txt'
+[5.640s] reading manifest file 'two_scara_collaboration.egg-info/SOURCES.txt'
+[5.640s] writing manifest file 'two_scara_collaboration.egg-info/SOURCES.txt'
+[5.671s] Built target ament_cmake_python_build_two_scara_collaboration_egg
+[5.684s] Invoked command in '/home/km/two_scara_ros2/build/two_scara_collaboration' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/km/two_scara_ros2/build/two_scara_collaboration -- -j16 -l16
+[5.698s] Invoking command in '/home/km/two_scara_ros2/build/two_scara_collaboration': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/km/two_scara_ros2/build/two_scara_collaboration
+[5.706s] -- Install configuration: ""
+[5.706s] -- Execute custom install script
+[5.707s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/environment/pythonpath.sh
+[5.718s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/environment/pythonpath.dsv
+[5.729s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration-0.0.1-py3.10.egg-info/PKG-INFO
+[5.739s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration-0.0.1-py3.10.egg-info/SOURCES.txt
+[5.749s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration-0.0.1-py3.10.egg-info/dependency_links.txt
+[5.759s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration-0.0.1-py3.10.egg-info/top_level.txt
+[5.769s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/__init__.py
+[5.780s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/automation_manager.py
+[5.791s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/block_publisher.py
+[5.801s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/block_spawner.py
+[5.812s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/collision_avoidance.py
+[5.823s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/conveyor_driver.py
+[5.833s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/gripper_action_server.py
+[5.843s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/kinematics.py
+[5.855s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/scara_left_motion_planner.py
+[5.866s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/scara_right_motion_planner.py
+[5.876s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/spawn_robots.py
+[5.886s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/lib/two_scara_collaboration/scara_left_motion_planner.py
+[5.896s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/lib/two_scara_collaboration/scara_right_motion_planner.py
+[5.906s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/lib/two_scara_collaboration/block_spawner.py
+[5.916s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/lib/two_scara_collaboration/block_publisher.py
+[5.926s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/lib/two_scara_collaboration/gripper_action_server.py
+[5.937s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/lib/two_scara_collaboration/spawn_robots.py
+[5.948s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/launch/gazebo.launch.py
+[5.958s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/launch/initialize.launch.py
+[5.969s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/urdf/conveyor_belt.urdf.xacro
+[5.981s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/urdf/cylinder_block.urdf.xacro
+[5.991s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/urdf/scara_left.urdf.xacro
+[6.001s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/urdf/scara_right.urdf.xacro
+[6.011s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/urdf/world.urdf.xacro
+[6.022s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/config/scara_left_controllers.yaml
+[6.032s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/config/scara_right_controllers.yaml
+[6.043s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/config/simulation_params.yaml
+[6.054s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/config/two_scara_controllers.yaml
+[6.065s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/rviz/scara_config.rviz
+[6.076s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/resource/two_scara_collaboration
+[6.086s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/package.xml
+[6.096s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/ament_index/resource_index/package_run_dependencies/two_scara_collaboration
+[6.107s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/ament_index/resource_index/parent_prefix_path/two_scara_collaboration
+[6.117s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/environment/ament_prefix_path.sh
+[6.128s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/environment/ament_prefix_path.dsv
+[6.138s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/environment/path.sh
+[6.148s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/environment/path.dsv
+[6.158s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/local_setup.bash
+[6.168s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/local_setup.sh
+[6.178s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/local_setup.zsh
+[6.188s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/local_setup.dsv
+[6.198s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/package.dsv
+[6.208s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/ament_index/resource_index/packages/two_scara_collaboration
+[6.219s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/cmake/two_scara_collaborationConfig.cmake
+[6.229s] -- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/cmake/two_scara_collaborationConfig-version.cmake
+[6.239s] -- Up-to-date symlink: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/package.xml
+[6.297s] Listing '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration'...
+[6.297s] Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/__init__.py'...
+[6.297s] Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/automation_manager.py'...
+[6.297s] Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/block_publisher.py'...
+[6.297s] Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/block_spawner.py'...
+[6.297s] Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/collision_avoidance.py'...
+[6.297s] Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/conveyor_driver.py'...
+[6.297s] Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/gripper_action_server.py'...
+[6.297s] Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/kinematics.py'...
+[6.298s] Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/scara_left_motion_planner.py'...
+[6.298s] Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/scara_right_motion_planner.py'...
+[6.298s] Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/spawn_robots.py'...
+[6.306s] Invoked command in '/home/km/two_scara_ros2/build/two_scara_collaboration' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/km/two_scara_ros2/build/two_scara_collaboration

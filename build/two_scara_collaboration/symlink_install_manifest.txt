@@ -5,9 +5,11 @@
 /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration-0.0.1-py3.10.egg-info/dependency_links.txt
 /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration-0.0.1-py3.10.egg-info/top_level.txt
 /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/__init__.py
+/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/automation_manager.py
 /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/block_publisher.py
 /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/block_spawner.py
 /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/collision_avoidance.py
+/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/conveyor_driver.py
 /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/gripper_action_server.py
 /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/kinematics.py
 /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/scara_left_motion_planner.py

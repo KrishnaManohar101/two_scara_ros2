@@ -60,15 +60,15 @@
 
   <link name="scara_left_link_1">
     <collision>
-      <origin xyz="0 0.5 0.05" rpy="0 0 0"/>
+      <origin xyz="0 0.75 0.05" rpy="0 0 0"/>
       <geometry>
-        <box size="0.1 1.1 0.1"/>
+        <box size="0.1 1.6 0.1"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0.5 0.05" rpy="0 0 0"/>
+      <origin xyz="0 0.75 0.05" rpy="0 0 0"/>
       <geometry>
-        <box size="0.1 1.1 0.1"/>
+        <box size="0.1 1.6 0.1"/>
       </geometry>
       <material name="blue">
         <color rgba="0 0 1 1"/>
@@ -88,22 +88,22 @@
   <joint name="scara_left_joint_2" type="revolute">
     <parent link="scara_left_link_1"/>
     <child link="scara_left_link_2"/>
-    <origin xyz="0 1 0.1" rpy="0 0 0"/>
+    <origin xyz="0 1.5 0.1" rpy="0 0 0"/> <!-- L1 Increased to 1.5 -->
     <axis xyz="0 0 1"/>
     <limit effort="100" velocity="100" lower="-3.00" upper="3.00"/>
   </joint>
 
   <link name="scara_left_link_2">
     <collision>
-      <origin xyz="0 0.4 0.05" rpy="0 0 0"/>
+      <origin xyz="0 0.5 0.05" rpy="0 0 0"/>
       <geometry>
-        <box size="0.1 0.9 0.1"/>
+        <box size="0.1 1.1 0.1"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0.4 0.05" rpy="0 0 0"/>
+      <origin xyz="0 0.5 0.05" rpy="0 0 0"/>
       <geometry>
-        <box size="0.1 0.9 0.1"/>
+        <box size="0.1 1.1 0.1"/>
       </geometry>
       <material name="cyan">
         <color rgba="0 1 1 1"/>
@@ -123,11 +123,11 @@
   <joint name="scara_left_gripper_joint" type="prismatic">
     <parent link="scara_left_link_2"/>
     <child link="scara_left_gripper_base_link"/>
-    <origin xyz="0 0.8 0" rpy="0 0 0"/>
+    <origin xyz="0 1.0 0" rpy="0 0 0"/> <!-- L2 Increased to 1.0 -->
     <axis xyz="0 0 1"/>
-    <limit effort="100" velocity="100" lower="-0.05" upper="0.0"/>
+    <limit effort="100" velocity="100" lower="-0.6" upper="0.0"/>
   </joint>
-
+  
   <link name="scara_left_gripper_base_link">
     <collision>
       <origin xyz="0 0 -0.1" rpy="0 0 0"/>

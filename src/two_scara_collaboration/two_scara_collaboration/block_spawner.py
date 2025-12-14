@@ -8,6 +8,7 @@ import rclpy
 from rclpy.node import Node
 from gazebo_msgs.srv import SpawnEntity
 from geometry_msgs.msg import Pose
+from geometry_msgs.msg import PoseStamped
 import random
 import time
 
@@ -20,7 +21,7 @@ class BlockSpawner(Node):
         super().__init__('block_spawner')
         
         # Parameters
-        self.spawn_interval = 2.0  # seconds
+        self.spawn_interval = 10.0  # seconds
         self.spawn_count = 0
         self.max_blocks = 20
         
@@ -32,6 +33,11 @@ class BlockSpawner(Node):
         
         # Create spawn client
         self.spawn_client = self.create_client(SpawnEntity, '/spawn_entity')
+        
+        # Publisher for "Detected" blocks (Simulated Vision)
+        from geometry_msgs.msg import PoseStamped
+        self.block_pub = self.create_publisher(PoseStamped, '/detected_blocks', 10)
+        
         while not self.spawn_client.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('Waiting for spawn service...')
         
@@ -46,8 +52,8 @@ class BlockSpawner(Node):
             self.get_logger().info('Maximum blocks reached')
             return
         
-        # Random position on conveyor
-        x_pos = random.uniform(self.conveyor_x_min, self.conveyor_x_max)
+        # Spawn near Left Robot (X=2.0)
+        x_pos = 2.0
         
         # Create pose
         pose = Pose()
@@ -92,6 +98,16 @@ class BlockSpawner(Node):
         # Call spawn service
         future = self.spawn_client.call_async(request)
         future.add_done_callback(self.spawn_callback)
+        
+        # Publish Detection (Simulated Vision)
+        det_msg = PoseStamped()
+        det_msg.header.frame_id = "world"
+        det_msg.header.stamp = self.get_clock().now().to_msg()
+        # Create new Pose object or copy
+        det_msg.pose.position.x = pose.position.x
+        det_msg.pose.position.y = pose.position.y
+        det_msg.pose.position.z = pose.position.z
+        self.block_pub.publish(det_msg)
         
         self.spawn_count += 1
     

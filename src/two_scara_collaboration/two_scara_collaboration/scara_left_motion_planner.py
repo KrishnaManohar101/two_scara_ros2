@@ -25,8 +25,10 @@ class SCARALeftMotionPlanner(Node):
     def __init__(self):
         super().__init__('scara_left_motion_planner')
         
-        # Kinematics and collision detection
-        self.kinematics = SCARAKinematics(l1=0.5, l2=0.5)
+        # Kinematics        # SCARA Geometry
+        # L1 = 1.6m visual length, Joint at 0.0 -> Joint at 1.5. So L1=1.5
+        # L2 = 1.0m visual, Joint at 1.0. So L2=1.0.
+        self.kinematics = SCARAKinematics(l1=1.5, l2=1.0)
         self.collision_detector = CollisionDetector(l1=0.5, l2=0.5)
         self.collision_avoidance = CollisionAvoidanceController(
             left_base=(0.3, 0),

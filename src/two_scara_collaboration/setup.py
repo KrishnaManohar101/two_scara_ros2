@@ -38,6 +38,8 @@ setup(
             'block_spawner = two_scara_collaboration.block_spawner:main',
             'block_publisher = two_scara_collaboration.block_publisher:main',
             'gripper_action_server = two_scara_collaboration.gripper_action_server:main',
+            'automation_manager = two_scara_collaboration.automation_manager:main',
+            'conveyor_driver = two_scara_collaboration.conveyor_driver:main',
         ],
     },
 )

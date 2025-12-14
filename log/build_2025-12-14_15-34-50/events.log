@@ -1,0 +1,217 @@
+[0.000000] (-) TimerEvent: {}
+[0.001162] (two_scara_collaboration) JobQueued: {'identifier': 'two_scara_collaboration', 'dependencies': OrderedDict()}
+[0.001230] (two_scara_collaboration) JobStarted: {'identifier': 'two_scara_collaboration'}
+[0.016232] (two_scara_collaboration) JobProgress: {'identifier': 'two_scara_collaboration', 'progress': 'cmake'}
+[0.018234] (two_scara_collaboration) Command: {'cmd': ['/usr/bin/cmake', '/home/km/two_scara_ros2/src/two_scara_collaboration', '-DAMENT_CMAKE_SYMLINK_INSTALL=1', '-DCMAKE_INSTALL_PREFIX=/home/km/two_scara_ros2/install/two_scara_collaboration'], 'cwd': '/home/km/two_scara_ros2/build/two_scara_collaboration', 'env': OrderedDict([('USER', 'km'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/km'), ('ROS_PYTHON_VERSION', '3'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'km'), ('NAME', 'KRISHNA'), ('WSL_INTEROP', '/run/WSL/14692_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/Microsoft MPI/Bin/:/mnt/c/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler:/mnt/c/windows/system32:/mnt/c/windows:/mnt/c/windows/System32/Wbem:/mnt/c/windows/System32/WindowsPowerShell/v1.0/:/mnt/c/windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Users/Administrator/AppData/Local/Microsoft/WindowsApps:/mnt/c/Program Files/HP/OMEN-Broadcast/Common:/mnt/c/Program Files/MATLAB/R2024b/runtime/win64:/mnt/c/Program Files/MATLAB/R2024b/bin:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/MinGW/bin:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files/nodejs:/mnt/c/Program Files/MySQL/MySQL Server 8.0/bin:/mnt/c/Program Files/PuTTY/:/mnt/c/Users/krish/AppData/Local/Muse Hub/lib:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/nodejs/:/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/:/mnt/c/Program Files/Cloudflare/Cloudflare WARP/:/mnt/c/Users/krish/AppData/Local/Programs/Python/Python311/Scripts/:/mnt/c/Users/krish/AppData/Local/Programs/Python/Python311/:/mnt/c/Users/krish/AppData/Local/Blackbox/bin:/mnt/c/Users/krish/AppData/Local/Programs/Python/Python312/Scripts/:/mnt/c/Users/krish/AppData/Local/Programs/Python/Python312/:/mnt/c/Program Files/MySQL/MySQL Shell 8.0/bin/:/mnt/c/Users/krish/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/krish/AppData/Local/Muse Hub/lib:/mnt/c/Users/krish/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/JetBrains/IntelliJ IDEA 2024.3.2.2/bin:/mnt/c/Program Files/JetBrains/IntelliJ IDEA Community Edition 2024.3.2.2/bin:/mnt/c/Users/krish/flutter/bin:/mnt/c/Users/krish/AppData/Roaming/npm:/mnt/d/Antigravity/bin'), ('XDG_RUNTIME_DIR', '/run/user/1000/'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('PWD', '/home/km/two_scara_ros2/build/two_scara_collaboration'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('WSLENV', 'ELECTRON_RUN_AS_NODE/w:'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[0.099812] (-) TimerEvent: {}
+[0.200504] (-) TimerEvent: {}
+[0.301193] (-) TimerEvent: {}
+[0.402023] (-) TimerEvent: {}
+[0.502713] (-) TimerEvent: {}
+[0.603285] (-) TimerEvent: {}
+[0.703986] (-) TimerEvent: {}
+[0.778782] (two_scara_collaboration) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.804597] (-) TimerEvent: {}
+[0.905735] (-) TimerEvent: {}
+[1.007028] (-) TimerEvent: {}
+[1.107699] (-) TimerEvent: {}
+[1.208668] (-) TimerEvent: {}
+[1.309552] (-) TimerEvent: {}
+[1.410505] (-) TimerEvent: {}
+[1.512190] (-) TimerEvent: {}
+[1.613030] (-) TimerEvent: {}
+[1.714748] (-) TimerEvent: {}
+[1.815706] (-) TimerEvent: {}
+[1.916439] (-) TimerEvent: {}
+[2.017184] (-) TimerEvent: {}
+[2.117728] (-) TimerEvent: {}
+[2.218781] (-) TimerEvent: {}
+[2.319597] (-) TimerEvent: {}
+[2.421051] (-) TimerEvent: {}
+[2.522017] (-) TimerEvent: {}
+[2.623101] (-) TimerEvent: {}
+[2.723956] (-) TimerEvent: {}
+[2.825656] (-) TimerEvent: {}
+[2.927260] (-) TimerEvent: {}
+[3.028458] (-) TimerEvent: {}
+[3.129681] (-) TimerEvent: {}
+[3.230416] (-) TimerEvent: {}
+[3.331018] (-) TimerEvent: {}
+[3.432313] (-) TimerEvent: {}
+[3.481431] (two_scara_collaboration) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[3.532711] (-) TimerEvent: {}
+[3.633883] (-) TimerEvent: {}
+[3.734649] (-) TimerEvent: {}
+[3.835232] (-) TimerEvent: {}
+[3.935823] (-) TimerEvent: {}
+[4.036538] (-) TimerEvent: {}
+[4.137227] (-) TimerEvent: {}
+[4.238015] (-) TimerEvent: {}
+[4.338721] (-) TimerEvent: {}
+[4.439531] (-) TimerEvent: {}
+[4.540445] (-) TimerEvent: {}
+[4.641304] (-) TimerEvent: {}
+[4.742103] (-) TimerEvent: {}
+[4.842894] (-) TimerEvent: {}
+[4.943422] (-) TimerEvent: {}
+[5.044057] (-) TimerEvent: {}
+[5.144977] (-) TimerEvent: {}
+[5.245760] (-) TimerEvent: {}
+[5.346446] (-) TimerEvent: {}
+[5.373955] (two_scara_collaboration) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[5.446630] (-) TimerEvent: {}
+[5.547239] (-) TimerEvent: {}
+[5.647821] (-) TimerEvent: {}
+[5.748353] (-) TimerEvent: {}
+[5.849093] (-) TimerEvent: {}
+[5.937163] (two_scara_collaboration) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[5.949166] (two_scara_collaboration) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[5.949503] (-) TimerEvent: {}
+[5.952043] (two_scara_collaboration) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[5.954456] (two_scara_collaboration) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[5.963128] (two_scara_collaboration) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[6.049868] (-) TimerEvent: {}
+[6.150605] (-) TimerEvent: {}
+[6.251359] (-) TimerEvent: {}
+[6.352089] (-) TimerEvent: {}
+[6.453010] (-) TimerEvent: {}
+[6.498820] (two_scara_collaboration) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[6.514161] (two_scara_collaboration) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[6.514603] (two_scara_collaboration) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[6.515542] (two_scara_collaboration) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[6.550662] (two_scara_collaboration) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[6.553486] (-) TimerEvent: {}
+[6.654379] (-) TimerEvent: {}
+[6.755590] (-) TimerEvent: {}
+[6.847631] (two_scara_collaboration) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[6.855947] (-) TimerEvent: {}
+[6.956585] (-) TimerEvent: {}
+[6.997634] (two_scara_collaboration) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[7.056901] (-) TimerEvent: {}
+[7.084177] (two_scara_collaboration) StdoutLine: {'line': b'-- Found rclpy: 3.3.19 (/opt/ros/humble/share/rclpy/cmake)\n'}
+[7.088336] (two_scara_collaboration) StdoutLine: {'line': b'-- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)\n'}
+[7.157332] (-) TimerEvent: {}
+[7.258200] (-) TimerEvent: {}
+[7.358816] (-) TimerEvent: {}
+[7.459437] (-) TimerEvent: {}
+[7.560593] (-) TimerEvent: {}
+[7.661653] (-) TimerEvent: {}
+[7.762735] (-) TimerEvent: {}
+[7.864695] (-) TimerEvent: {}
+[7.894217] (two_scara_collaboration) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[7.910706] (two_scara_collaboration) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[7.935113] (two_scara_collaboration) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[7.965105] (-) TimerEvent: {}
+[7.978967] (two_scara_collaboration) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[8.027710] (two_scara_collaboration) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[8.065512] (-) TimerEvent: {}
+[8.142123] (two_scara_collaboration) StdoutLine: {'line': b'-- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)\n'}
+[8.165976] (-) TimerEvent: {}
+[8.191819] (two_scara_collaboration) StdoutLine: {'line': b'-- Found control_msgs: 4.8.0 (/opt/ros/humble/share/control_msgs/cmake)\n'}
+[8.266197] (-) TimerEvent: {}
+[8.366692] (-) TimerEvent: {}
+[8.467144] (-) TimerEvent: {}
+[8.567818] (-) TimerEvent: {}
+[8.656274] (two_scara_collaboration) StdoutLine: {'line': b'-- Configuring done\n'}
+[8.668158] (-) TimerEvent: {}
+[8.673341] (two_scara_collaboration) StdoutLine: {'line': b'-- Generating done\n'}
+[8.679792] (two_scara_collaboration) StdoutLine: {'line': b'-- Build files have been written to: /home/km/two_scara_ros2/build/two_scara_collaboration\n'}
+[8.699490] (two_scara_collaboration) CommandEnded: {'returncode': 0}
+[8.704622] (two_scara_collaboration) JobProgress: {'identifier': 'two_scara_collaboration', 'progress': 'build'}
+[8.704711] (two_scara_collaboration) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/km/two_scara_ros2/build/two_scara_collaboration', '--', '-j16', '-l16'], 'cwd': '/home/km/two_scara_ros2/build/two_scara_collaboration', 'env': OrderedDict([('USER', 'km'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/km'), ('ROS_PYTHON_VERSION', '3'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'km'), ('NAME', 'KRISHNA'), ('WSL_INTEROP', '/run/WSL/14692_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/Microsoft MPI/Bin/:/mnt/c/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler:/mnt/c/windows/system32:/mnt/c/windows:/mnt/c/windows/System32/Wbem:/mnt/c/windows/System32/WindowsPowerShell/v1.0/:/mnt/c/windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Users/Administrator/AppData/Local/Microsoft/WindowsApps:/mnt/c/Program Files/HP/OMEN-Broadcast/Common:/mnt/c/Program Files/MATLAB/R2024b/runtime/win64:/mnt/c/Program Files/MATLAB/R2024b/bin:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/MinGW/bin:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files/nodejs:/mnt/c/Program Files/MySQL/MySQL Server 8.0/bin:/mnt/c/Program Files/PuTTY/:/mnt/c/Users/krish/AppData/Local/Muse Hub/lib:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/nodejs/:/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/:/mnt/c/Program Files/Cloudflare/Cloudflare WARP/:/mnt/c/Users/krish/AppData/Local/Programs/Python/Python311/Scripts/:/mnt/c/Users/krish/AppData/Local/Programs/Python/Python311/:/mnt/c/Users/krish/AppData/Local/Blackbox/bin:/mnt/c/Users/krish/AppData/Local/Programs/Python/Python312/Scripts/:/mnt/c/Users/krish/AppData/Local/Programs/Python/Python312/:/mnt/c/Program Files/MySQL/MySQL Shell 8.0/bin/:/mnt/c/Users/krish/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/krish/AppData/Local/Muse Hub/lib:/mnt/c/Users/krish/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/JetBrains/IntelliJ IDEA 2024.3.2.2/bin:/mnt/c/Program Files/JetBrains/IntelliJ IDEA Community Edition 2024.3.2.2/bin:/mnt/c/Users/krish/flutter/bin:/mnt/c/Users/krish/AppData/Roaming/npm:/mnt/d/Antigravity/bin'), ('XDG_RUNTIME_DIR', '/run/user/1000/'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('PWD', '/home/km/two_scara_ros2/build/two_scara_collaboration'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('WSLENV', 'ELECTRON_RUN_AS_NODE/w:'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[8.768373] (-) TimerEvent: {}
+[8.797200] (two_scara_collaboration) StdoutLine: {'line': b'Built target ament_cmake_python_symlink_two_scara_collaboration_setup\n'}
+[8.800143] (two_scara_collaboration) StdoutLine: {'line': b'Built target ament_cmake_python_symlink_two_scara_collaboration\n'}
+[8.868733] (-) TimerEvent: {}
+[8.970505] (-) TimerEvent: {}
+[9.071350] (-) TimerEvent: {}
+[9.171875] (-) TimerEvent: {}
+[9.205641] (two_scara_collaboration) StdoutLine: {'line': b'running egg_info\n'}
+[9.206778] (two_scara_collaboration) StdoutLine: {'line': b'creating two_scara_collaboration.egg-info\n'}
+[9.207680] (two_scara_collaboration) StdoutLine: {'line': b'writing two_scara_collaboration.egg-info/PKG-INFO\n'}
+[9.208312] (two_scara_collaboration) StdoutLine: {'line': b'writing dependency_links to two_scara_collaboration.egg-info/dependency_links.txt\n'}
+[9.209029] (two_scara_collaboration) StdoutLine: {'line': b'writing top-level names to two_scara_collaboration.egg-info/top_level.txt\n'}
+[9.209503] (two_scara_collaboration) StdoutLine: {'line': b"writing manifest file 'two_scara_collaboration.egg-info/SOURCES.txt'\n"}
+[9.215142] (two_scara_collaboration) StdoutLine: {'line': b"reading manifest file 'two_scara_collaboration.egg-info/SOURCES.txt'\n"}
+[9.216786] (two_scara_collaboration) StdoutLine: {'line': b"writing manifest file 'two_scara_collaboration.egg-info/SOURCES.txt'\n"}
+[9.272167] (-) TimerEvent: {}
+[9.281994] (two_scara_collaboration) StdoutLine: {'line': b'Built target ament_cmake_python_build_two_scara_collaboration_egg\n'}
+[9.300660] (two_scara_collaboration) CommandEnded: {'returncode': 0}
+[9.304156] (two_scara_collaboration) JobProgress: {'identifier': 'two_scara_collaboration', 'progress': 'install'}
+[9.321957] (two_scara_collaboration) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/km/two_scara_ros2/build/two_scara_collaboration'], 'cwd': '/home/km/two_scara_ros2/build/two_scara_collaboration', 'env': OrderedDict([('USER', 'km'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/km'), ('ROS_PYTHON_VERSION', '3'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'km'), ('NAME', 'KRISHNA'), ('WSL_INTEROP', '/run/WSL/14692_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/Microsoft MPI/Bin/:/mnt/c/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler:/mnt/c/windows/system32:/mnt/c/windows:/mnt/c/windows/System32/Wbem:/mnt/c/windows/System32/WindowsPowerShell/v1.0/:/mnt/c/windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Users/Administrator/AppData/Local/Microsoft/WindowsApps:/mnt/c/Program Files/HP/OMEN-Broadcast/Common:/mnt/c/Program Files/MATLAB/R2024b/runtime/win64:/mnt/c/Program Files/MATLAB/R2024b/bin:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/MinGW/bin:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files/nodejs:/mnt/c/Program Files/MySQL/MySQL Server 8.0/bin:/mnt/c/Program Files/PuTTY/:/mnt/c/Users/krish/AppData/Local/Muse Hub/lib:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/nodejs/:/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/:/mnt/c/Program Files/Cloudflare/Cloudflare WARP/:/mnt/c/Users/krish/AppData/Local/Programs/Python/Python311/Scripts/:/mnt/c/Users/krish/AppData/Local/Programs/Python/Python311/:/mnt/c/Users/krish/AppData/Local/Blackbox/bin:/mnt/c/Users/krish/AppData/Local/Programs/Python/Python312/Scripts/:/mnt/c/Users/krish/AppData/Local/Programs/Python/Python312/:/mnt/c/Program Files/MySQL/MySQL Shell 8.0/bin/:/mnt/c/Users/krish/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/krish/AppData/Local/Muse Hub/lib:/mnt/c/Users/krish/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/JetBrains/IntelliJ IDEA 2024.3.2.2/bin:/mnt/c/Program Files/JetBrains/IntelliJ IDEA Community Edition 2024.3.2.2/bin:/mnt/c/Users/krish/flutter/bin:/mnt/c/Users/krish/AppData/Roaming/npm:/mnt/d/Antigravity/bin'), ('XDG_RUNTIME_DIR', '/run/user/1000/'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('PWD', '/home/km/two_scara_ros2/build/two_scara_collaboration'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('WSLENV', 'ELECTRON_RUN_AS_NODE/w:'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[9.335577] (two_scara_collaboration) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[9.336673] (two_scara_collaboration) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[9.342154] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/environment/pythonpath.sh\n'}
+[9.356410] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/environment/pythonpath.dsv\n'}
+[9.371840] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration-0.0.1-py3.10.egg-info/PKG-INFO\n'}
+[9.372406] (-) TimerEvent: {}
+[9.389458] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration-0.0.1-py3.10.egg-info/SOURCES.txt\n'}
+[9.405797] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration-0.0.1-py3.10.egg-info/dependency_links.txt\n'}
+[9.427183] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration-0.0.1-py3.10.egg-info/top_level.txt\n'}
+[9.447630] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/__init__.py\n'}
+[9.462991] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/automation_manager.py\n'}
+[9.472738] (-) TimerEvent: {}
+[9.478098] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/block_publisher.py\n'}
+[9.491989] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/block_spawner.py\n'}
+[9.507937] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/collision_avoidance.py\n'}
+[9.522958] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/gripper_action_server.py\n'}
+[9.537824] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/kinematics.py\n'}
+[9.553847] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/scara_left_motion_planner.py\n'}
+[9.568425] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/scara_right_motion_planner.py\n'}
+[9.573222] (-) TimerEvent: {}
+[9.583491] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/spawn_robots.py\n'}
+[9.601707] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/lib/two_scara_collaboration/scara_left_motion_planner.py\n'}
+[9.617795] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/lib/two_scara_collaboration/scara_right_motion_planner.py\n'}
+[9.631472] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/lib/two_scara_collaboration/block_spawner.py\n'}
+[9.645671] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/lib/two_scara_collaboration/block_publisher.py\n'}
+[9.661050] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/lib/two_scara_collaboration/gripper_action_server.py\n'}
+[9.673868] (-) TimerEvent: {}
+[9.681086] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/lib/two_scara_collaboration/spawn_robots.py\n'}
+[9.698534] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/launch/gazebo.launch.py\n'}
+[9.712500] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/launch/initialize.launch.py\n'}
+[9.725953] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/urdf/conveyor_belt.urdf.xacro\n'}
+[9.742956] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/urdf/cylinder_block.urdf.xacro\n'}
+[9.757156] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/urdf/scara_left.urdf.xacro\n'}
+[9.770894] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/urdf/scara_right.urdf.xacro\n'}
+[9.774154] (-) TimerEvent: {}
+[9.785423] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/urdf/world.urdf.xacro\n'}
+[9.803938] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/config/scara_left_controllers.yaml\n'}
+[9.822556] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/config/scara_right_controllers.yaml\n'}
+[9.838572] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/config/simulation_params.yaml\n'}
+[9.854822] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/config/two_scara_controllers.yaml\n'}
+[9.870239] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/rviz/scara_config.rviz\n'}
+[9.874650] (-) TimerEvent: {}
+[9.885802] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/resource/two_scara_collaboration\n'}
+[9.903286] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/package.xml\n'}
+[9.920100] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/ament_index/resource_index/package_run_dependencies/two_scara_collaboration\n'}
+[9.938479] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/ament_index/resource_index/parent_prefix_path/two_scara_collaboration\n'}
+[9.958649] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/environment/ament_prefix_path.sh\n'}
+[9.974728] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/environment/ament_prefix_path.dsv\n'}
+[9.975171] (-) TimerEvent: {}
+[9.989330] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/environment/path.sh\n'}
+[10.004366] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/environment/path.dsv\n'}
+[10.017997] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/local_setup.bash\n'}
+[10.034150] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/local_setup.sh\n'}
+[10.052305] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/local_setup.zsh\n'}
+[10.068531] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/local_setup.dsv\n'}
+[10.075634] (-) TimerEvent: {}
+[10.085353] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/package.dsv\n'}
+[10.100656] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/ament_index/resource_index/packages/two_scara_collaboration\n'}
+[10.117122] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/cmake/two_scara_collaborationConfig.cmake\n'}
+[10.133272] (two_scara_collaboration) StdoutLine: {'line': b'-- Symlinking: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/cmake/two_scara_collaborationConfig-version.cmake\n'}
+[10.147132] (two_scara_collaboration) StdoutLine: {'line': b'-- Up-to-date symlink: /home/km/two_scara_ros2/install/two_scara_collaboration/share/two_scara_collaboration/package.xml\n'}
+[10.175874] (-) TimerEvent: {}
+[10.218583] (two_scara_collaboration) StdoutLine: {'line': b"Listing '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration'...\n"}
+[10.218993] (two_scara_collaboration) StdoutLine: {'line': b"Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/__init__.py'...\n"}
+[10.219110] (two_scara_collaboration) StdoutLine: {'line': b"Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/automation_manager.py'...\n"}
+[10.219179] (two_scara_collaboration) StdoutLine: {'line': b"Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/block_publisher.py'...\n"}
+[10.219232] (two_scara_collaboration) StdoutLine: {'line': b"Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/block_spawner.py'...\n"}
+[10.219280] (two_scara_collaboration) StdoutLine: {'line': b"Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/collision_avoidance.py'...\n"}
+[10.219351] (two_scara_collaboration) StdoutLine: {'line': b"Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/gripper_action_server.py'...\n"}
+[10.219402] (two_scara_collaboration) StdoutLine: {'line': b"Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/kinematics.py'...\n"}
+[10.219447] (two_scara_collaboration) StdoutLine: {'line': b"Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/scara_left_motion_planner.py'...\n"}
+[10.219492] (two_scara_collaboration) StdoutLine: {'line': b"Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/scara_right_motion_planner.py'...\n"}
+[10.219537] (two_scara_collaboration) StdoutLine: {'line': b"Compiling '/home/km/two_scara_ros2/install/two_scara_collaboration/local/lib/python3.10/dist-packages/two_scara_collaboration/spawn_robots.py'...\n"}
+[10.230147] (two_scara_collaboration) CommandEnded: {'returncode': 0}
+[10.262663] (two_scara_collaboration) JobEnded: {'identifier': 'two_scara_collaboration', 'rc': 0}
+[10.264270] (-) EventReactorShutdown: {}

@@ -22,8 +22,8 @@ class SCARARightMotionPlanner(Node):
     def __init__(self):
         super().__init__('scara_right_motion_planner')
         
-        # Kinematics
-        self.kinematics = SCARAKinematics(l1=1.0, l2=0.8)
+        # SCARA Geometry
+        self.kinematics = SCARAKinematics(l1=1.5, l2=1.0)
         self.collision_avoidance = CollisionAvoidanceController(
             left_base=(0.3, 0),
             right_base=(-0.3, 0)
