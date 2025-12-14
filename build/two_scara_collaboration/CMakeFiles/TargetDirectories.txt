@@ -1,0 +1,12 @@
+/home/km/two_scara_ros2/build/two_scara_collaboration/CMakeFiles/uninstall.dir
+/home/km/two_scara_ros2/build/two_scara_collaboration/CMakeFiles/two_scara_collaboration_uninstall.dir
+/home/km/two_scara_ros2/build/two_scara_collaboration/CMakeFiles/ament_cmake_python_symlink_two_scara_collaboration.dir
+/home/km/two_scara_ros2/build/two_scara_collaboration/CMakeFiles/ament_cmake_python_symlink_two_scara_collaboration_setup.dir
+/home/km/two_scara_ros2/build/two_scara_collaboration/CMakeFiles/ament_cmake_python_build_two_scara_collaboration_egg.dir
+/home/km/two_scara_ros2/build/two_scara_collaboration/CMakeFiles/test.dir
+/home/km/two_scara_ros2/build/two_scara_collaboration/CMakeFiles/edit_cache.dir
+/home/km/two_scara_ros2/build/two_scara_collaboration/CMakeFiles/rebuild_cache.dir
+/home/km/two_scara_ros2/build/two_scara_collaboration/CMakeFiles/list_install_components.dir
+/home/km/two_scara_ros2/build/two_scara_collaboration/CMakeFiles/install.dir
+/home/km/two_scara_ros2/build/two_scara_collaboration/CMakeFiles/install/local.dir
+/home/km/two_scara_ros2/build/two_scara_collaboration/CMakeFiles/install/strip.dir

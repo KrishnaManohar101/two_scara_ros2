@@ -1,0 +1,3 @@
+[INFO] [launch]: All log files can be found below /home/km/.ros/log/2025-12-14-11-33-13-322942-KRISHNA-28218
+[INFO] [launch]: Default logging verbosity is set to INFO
+[ERROR] [launch]: Caught exception in launch (see debug for traceback): executable 'spawn_robots.py' not found on the libexec directory '/home/km/two_scara_ros2/install/two_scara_collaboration/lib/two_scara_collaboration' 

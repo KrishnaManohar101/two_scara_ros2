@@ -1,0 +1,1 @@
+/home/km/two_scara_ros2/src/two_scara_collaboration/two_scara_collaboration/scara_left_motion_planner.py

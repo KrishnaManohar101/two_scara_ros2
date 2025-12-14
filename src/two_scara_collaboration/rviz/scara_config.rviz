@@ -1,0 +1,302 @@
+Panels:
+  - Class: rviz_common/Displays
+    Help Height: 78
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Status1
+        - /Grid1
+        - /SCARA Left1
+        - /SCARA Right1
+        - /Conveyor Belt1
+      Splitter Ratio: 0.5
+    Tree Height: 210
+  - Class: rviz_common/Selection
+    Name: Selection
+  - Class: rviz_common/Tool Properties
+    Expanded:
+      - /2D Goal Pose1
+      - /Publish Point1
+    Name: Tool Properties
+    Splitter Ratio: 0.588679
+  - Class: rviz_common/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz_default_plugins/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.0299999993
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Enabled: true
+      Frame Rate: 10
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: false
+      Tree Properties:
+        All Enabled: true
+        Enabled:
+          - world
+          - conveyor_base_link
+          - scara_left_base_link
+          - scara_left_joint_1_link
+          - scara_left_link_1_link
+          - scara_left_joint_2_link
+          - scara_left_link_2_link
+          - scara_left_gripper_base_link
+          - scara_left_gripper_left_link
+          - scara_left_gripper_right_link
+          - scara_right_base_link
+          - scara_right_joint_1_link
+          - scara_right_link_1_link
+          - scara_right_joint_2_link
+          - scara_right_link_2_link
+          - scara_right_gripper_base_link
+          - scara_right_gripper_left_link
+          - scara_right_gripper_right_link
+        Frames:
+          All Enabled: true
+        Marker Scale: 1
+        Name: TF
+        Show Arrows: true
+        Show Axes: true
+        Show Names: false
+        Tree Properties:
+          All Enabled: true
+      Update Interval: 0
+      Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Collision Margin: 0.00999999978
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expanded:
+          - world
+          - scara_left_base_link
+          - scara_left_joint_1_link
+          - scara_left_link_1_link
+          - scara_left_joint_2_link
+          - scara_left_link_2_link
+          - scara_left_gripper_base_link
+          - scara_right_base_link
+          - scara_right_joint_1_link
+          - scara_right_link_1_link
+          - scara_right_joint_2_link
+          - scara_right_link_2_link
+          - scara_right_gripper_base_link
+        Link Tree Style: Links in Alphabetic Order
+        scara_left_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_left_gripper_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_left_gripper_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_left_gripper_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_left_joint_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_left_joint_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_left_link_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_left_link_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_right_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_right_gripper_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_right_gripper_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_right_gripper_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_right_joint_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_right_joint_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_right_link_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        scara_right_link_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: RobotModel
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Angle Tolerance: 0.100000001
+      Class: rviz_default_plugins/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Flat
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.300000012
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: false
+      Keep: 1
+      Name: Odometry
+      Position Tolerance: 0.100000001
+      Shape:
+        Alpha: 1
+        Axes Length: 0.300000012
+        Axes Radius: 0.0299999993
+        Color: 255; 25; 0
+        Head Length: 0.300000012
+        Head Radius: 0.100000001
+        Shaft Length: 1
+        Shaft Radius: 0.0500000007
+        Value: Arrow
+      Topic: /odom
+      Unreliable: false
+      Value: false
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Marker Topic: /visualization_marker_array
+      Name: Markers
+      Namespaces:
+        "": true
+      Queue Size: 100
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Default Light: true
+    Fixed Frame: world
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/Interact
+      Hide Inactive Objects: true
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+      Class Name: rviz_default_plugins/Measure
+    - Class: rviz_default_plugins/PublishPoint
+      Single click publishing: true
+      Topic: /clicked_point
+    - Class: rviz_default_plugins/SetInitialPose
+      Theta std deviation: 0.261799395
+      Topic: /initialpose
+      X std deviation: 0.5
+      Y std deviation: 0.5
+    - Class: rviz_default_plugins/SetGoal
+      Topic: /move_base_simple/goal
+  Value: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 3.5
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.0599999987
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.0500000007
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.00999999978
+      Pitch: 0.785398185
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 0.785398185
+    Saved: ~
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 846
+  Help:
+    collapsed: false
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd0000000100000000000002f0000002d6fc0100000009fb0000001200530065006c0065006300740069006f006e00000000000000014f0000005c00fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000014f000001620000006700fffffffb000000120056006900650077007300000001b30000009b0000009b00fffffffb0000001200530065006c0065006300740069006f006e010000000a0000025d0000005c00fffffffb0000000a00560069006500770073010000026a0000011d0000011d00fffffffb000000100044006900730070006c00610079007301000000000000015f0000015f00fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000015f000001620000006700fffffffc00000000000002f0000002d6fc0200000001fb0000001200440069007300700006c0061007900730100000000000002f00000015f00ffffff000002f00000000000000004000000004000000800000000800fffffffa000000010100000002fb000000140044006900730070006c006100790020005f0031010000000a0000025d000000d700fffffffb0000001400440069007300700006c006100790020005f0032010000026d000002830000000000000000000000010000012c000002d6fc0200000003fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073000000000a000001b0000000a400fffffffb000000120053006500720069006f006d0065007400650072000000000a000001c0000000000000000000000000000000000000000002d600000001000000020000000100000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Selection:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 848
+  X: 0
+  Y: 0

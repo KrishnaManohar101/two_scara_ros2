@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dual_scara_world">
+
+  <link name="world"/>
+
+  <!-- Include Macros -->
+  <xacro:include filename="$(find two_scara_collaboration)/urdf/conveyor_belt.urdf.xacro"/>
+  <xacro:include filename="$(find two_scara_collaboration)/urdf/scara_left.urdf.xacro"/>
+  <xacro:include filename="$(find two_scara_collaboration)/urdf/scara_right.urdf.xacro"/>
+
+  <!-- Instantiate Elements -->
+  <!-- Conveyor -->
+  <xacro:conveyor_belt_macro parent="world">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:conveyor_belt_macro>
+
+  <!-- Left Robot -->
+  <joint name="scara_left_to_world" type="fixed">
+    <parent link="world"/>
+    <child link="scara_left_base_link"/>
+    <origin xyz="2 -1 0.2" rpy="0 0 0"/>
+  </joint>
+  <xacro:scara_left_robot/>
+
+  <!-- Right Robot -->
+  <joint name="scara_right_to_world" type="fixed">
+    <parent link="world"/>
+    <child link="scara_right_base_link"/>
+    <origin xyz="2 1 0.2" rpy="0 0 0"/>
+  </joint>
+  <xacro:scara_right_robot/>
+
+  <!-- Global ros2_control plugin -->
+  <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <parameters>$(find two_scara_collaboration)/config/two_scara_controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+</robot>

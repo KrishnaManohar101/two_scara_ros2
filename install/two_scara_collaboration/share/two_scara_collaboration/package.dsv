@@ -1,0 +1,8 @@
+source;share/two_scara_collaboration/hook/cmake_prefix_path.ps1
+source;share/two_scara_collaboration/hook/cmake_prefix_path.dsv
+source;share/two_scara_collaboration/hook/cmake_prefix_path.sh
+source;share/two_scara_collaboration/local_setup.bash
+source;share/two_scara_collaboration/local_setup.dsv
+source;share/two_scara_collaboration/local_setup.ps1
+source;share/two_scara_collaboration/local_setup.sh
+source;share/two_scara_collaboration/local_setup.zsh

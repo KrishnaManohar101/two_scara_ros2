@@ -1,0 +1,48 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="conveyor_belt">
+<xacro:macro name="conveyor_belt_macro" params="parent *origin">
+
+<!-- conveyor belt is just a long flat box for objects to slide on it -->
+
+<!-- base_link and its fixed joint -->
+<joint name="conveyor_fix" type="fixed">
+  <parent link="${parent}"/>
+  <child link="conveyor_base_link"/>
+  <xacro:insert_block name="origin"/>
+</joint>
+
+<link name="conveyor_base_link">
+  <collision>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    <geometry>
+      <box size="10 1 0.2"/>
+    </geometry>
+  </collision>
+
+  <visual>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    <geometry>
+      <box size="10 1 0.2"/>
+    </geometry>
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+  </visual>
+
+  <inertial>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    <mass value="100"/>
+    <inertia
+      ixx="10.0" ixy="0.0" ixz="0.0"
+      iyy="10.0" iyz="0.0"
+      izz="10.0"/>
+  </inertial>
+</link>
+
+<gazebo reference="conveyor_base_link">
+  <mu1>0</mu1>
+  <mu2>0</mu2>
+  <material>Gazebo/FlatBlack</material>
+</gazebo>
+
+</xacro:macro>
+</robot>

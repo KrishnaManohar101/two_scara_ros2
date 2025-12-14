@@ -1,0 +1,1 @@
+/home/km/two_scara_ros2/build/two_scara_collaboration/ament_cmake_python/two_scara_collaboration/two_scara_collaboration.egg-info/top_level.txt

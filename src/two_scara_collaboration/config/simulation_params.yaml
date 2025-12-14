@@ -1,0 +1,72 @@
+# Simulation Parameters for Two SCARA Robots
+
+simulation:
+  physics_engine: "ode"
+  gravity: [0.0, 0.0, -9.81]
+  time_step: 0.001
+  real_time_factor: 1.0
+  
+gazebo:
+  # Gazebo World
+  world_name: "two_scara_world"
+  
+  # Rendering
+  gui: true
+  headless: false
+  
+  # Plugins
+  plugins:
+    - gazebo_ros_init
+    - gazebo_ros_factory
+
+# Robot Configuration
+robots:
+  scara_left:
+    base_position: [0.3, 0.0, 0.0]
+    base_orientation: [0, 0, 0]
+    link1_length: 0.5
+    link2_length: 0.5
+    joint_max_velocity: 2.0
+    joint_max_torque: 100.0
+    
+  scara_right:
+    base_position: [-0.3, 0.0, 0.0]
+    base_orientation: [0, 0, 0]
+    link1_length: 0.5
+    link2_length: 0.5
+    joint_max_velocity: 2.0
+    joint_max_torque: 100.0
+
+# Conveyor Belt Configuration
+conveyor:
+  length: 2.0
+  width: 0.5
+  height: 0.1
+  position: [0.0, 0.0, 0.0]
+  belt_speed: 0.2  # m/s
+  
+# Block Configuration
+blocks:
+  spawn_interval: 2.0  # seconds
+  max_blocks: 20
+  block_mass: 0.5  # kg
+  block_radius: 0.05  # meters
+  
+# Collision Avoidance
+collision_avoidance:
+  min_safe_distance: 0.15  # meters
+  conflict_threshold: 0.5   # meters
+  enable_dynamic_workspace: true
+  workspace_allocation_method: "fcfs"  # First Come First Served
+  
+# Motion Planning
+motion_planning:
+  trajectory_duration: 2.0  # seconds
+  interpolation_method: "linear"
+  planning_timeout: 5.0  # seconds
+  
+# Gripper Configuration
+gripper:
+  max_gap: 0.05  # meters
+  max_effort: 50.0  # Newtons
+  speed: 1.0  # m/s

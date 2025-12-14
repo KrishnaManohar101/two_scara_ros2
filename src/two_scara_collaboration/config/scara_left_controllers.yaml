@@ -1,0 +1,31 @@
+scara_left_controllers:
+  joint_1_controller:
+    type: position_controllers/JointPositionController
+    joint: scara_left_joint_1
+    pid:
+      p: 10.0
+      i: 0.5
+      d: 1.0
+  
+  joint_2_controller:
+    type: position_controllers/JointPositionController
+    joint: scara_left_joint_2
+    pid:
+      p: 10.0
+      i: 0.5
+      d: 1.0
+  
+  gripper_controller:
+    type: position_controllers/JointPositionController
+    joint: scara_left_gripper_left_joint
+    pid:
+      p: 5.0
+      i: 0.1
+      d: 0.5
+
+# PD Controller Parameters
+pd_controller:
+  kp: [15.0, 15.0]  # Proportional gains for joints
+  kd: [2.0, 2.0]    # Derivative gains for joints
+  max_torque: [100.0, 100.0]  # Maximum torque (Nm)
+  max_velocity: [2.0, 2.0]    # Maximum velocity (rad/s)

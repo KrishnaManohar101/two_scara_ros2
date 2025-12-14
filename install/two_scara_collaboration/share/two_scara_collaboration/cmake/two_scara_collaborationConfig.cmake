@@ -1,0 +1,1 @@
+/home/km/two_scara_ros2/build/two_scara_collaboration/ament_cmake_core/two_scara_collaborationConfig.cmake

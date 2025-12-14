@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<package format="3">
+  <name>two_scara_collaboration</name>
+  <version>0.0.1</version>
+  <description>Two SCARA robots collaboration with collision avoidance for conveyor-based sorting</description>
+  <maintainer email="user@example.com">Two SCARA Team</maintainer>
+  <license>Apache License 2.0</license>
+
+  <url type="website">https://github.com/yangliu28/two_scara_collaboration</url>
+  <author email="user@example.com">Liu Yang</author>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+  <depend>urdf</depend>
+  <depend>xacro</depend>
+  <depend>gazebo_ros</depend>
+  <depend>gazebo_msgs</depend>
+  <depend>control_msgs</depend>
+  <depend>trajectory_msgs</depend>
+  <depend>action_msgs</depend>
+  <exec_depend>numpy</exec_depend>
+  <exec_depend>ros2_control</exec_depend>
+  <exec_depend>ros2_controllers</exec_depend>
+  <exec_depend>gazebo_ros2_control</exec_depend>
+
+  <exec_depend>ros2launch</exec_depend>
+  <exec_depend>gazebo</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
