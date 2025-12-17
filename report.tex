@@ -1,0 +1,493 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage{parskip}
+
+% Setup specific logic for math symbols
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+% --- NEW CONFIGURATION FOR TOC & HEADERS ---
+\usepackage{fancyhdr}
+\usepackage{tocloft}
+\usepackage{xcolor}
+
+% Define the specific blue color from the image
+\definecolor{MyBlue}{RGB}{0, 0, 204}
+
+% Setup Hyperref to use this color
+\hypersetup{
+    colorlinks=true,
+    linkcolor=MyBlue,
+    filecolor=MyBlue,
+    urlcolor=MyBlue,
+    citecolor=MyBlue
+}
+
+% 1. Header Configuration
+\pagestyle{fancy}
+\fancyhf{} % Clear current headers/footers
+\lhead{Technical Documentation}
+\rhead{Two SCARA Robot Collaboration System}
+% The image shows a rule (line) under the header
+\renewcommand{\headrulewidth}{0.5pt} 
+\setlength{\headheight}{15pt}
+
+% 2. Table of Contents Styling
+% Change title font
+\renewcommand{\cfttoctitlefont}{\Huge\bfseries\color{black}}
+\renewcommand{\contentsname}{Contents}
+
+% Section styling (Bold, Blue, Page number flush right)
+\renewcommand{\cftsecfont}{\bfseries\color{MyBlue}}
+\renewcommand{\cftsecpagefont}{\bfseries\color{MyBlue}}
+\renewcommand{\cftsecleader}{\hfill} % No dots for sections, usually
+
+% Subsection styling (Blue, Dotted leaders)
+\renewcommand{\cftsubsecfont}{\color{MyBlue}}
+\renewcommand{\cftsubsecpagefont}{\color{MyBlue}}
+\renewcommand{\cftsubsecleader}{\color{MyBlue}\cftdotfill{\cftdotsep}}
+
+% Subsubsection styling (Blue, Dotted leaders)
+\renewcommand{\cftsubsubsecfont}{\color{MyBlue}}
+\renewcommand{\cftsubsubsecpagefont}{\color{MyBlue}}
+\renewcommand{\cftsubsubsecleader}{\color{MyBlue}\cftdotfill{\cftdotsep}}
+
+% Indentation adjustments (optional, to match standard article looks fine)
+\setcounter{tocdepth}{3} % Ensure subsubsections are shown
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+\section*{Executive Summary}
+\addcontentsline{toc}{section}{Executive Summary}
+
+This document provides a comprehensive technical analysis of a dual-SCARA robot system designed for collaborative sorting and manipulation tasks. It details the kinematic modeling, dynamic analysis, control architecture, and workspace management strategies employed to achieve synchronized, collision-free operation in a shared environment.
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\subsection{Background and Motivation}
+The automation of material handling often requires collaborative multi-robot systems. This project explores the mathematical and physical foundations of coordinating two SCARA robots to perform mirrored tasks across a conveyor belt, necessitating precise kinematic control and workspace management.
+
+\subsection{Document Scope}
+This documentation covers:
+\begin{itemize}
+    \item Physical specifications and geometric modeling.
+    \item The rigorous derivation of Forward and Inverse Kinematics.
+    \item Coordinate transformations and frame hierarchies.
+    \item Dynamic equations of motion and control implications.
+    \item Singularity analysis using the Jacobian matrix.
+    \item Dual-robot coordination and replication logic.
+\end{itemize}
+
+\subsection{Terminology and Notation}
+\begin{itemize}
+    \item $\{W\}$: World Coordinate Frame.
+    \item $\{B_L\}, \{B_R\}$: Base Frames for Left and Right robots.
+    \item $L_1, L_2$: Link lengths (Humerus and Forearm).
+    \item $\theta_1, \theta_2$: Joint angles (Shoulder and Elbow).
+    \item FK/IK: Forward/Inverse Kinematics.
+\end{itemize}
+
+\section{System Architecture and Specifications}
+
+\subsection{Robot Geometry and Physical Configuration}
+
+\subsubsection{SCARA Configuration Rationale}
+The SCARA (Selective Compliance Assembly Robot Arm) configuration was chosen for its high rigidity in the vertical ($Z$) axis and compliance in the $X$-$Y$ plane, making it ideal for ``pick-and-place'' operations on a horizontal conveyor.
+
+\subsubsection{Dimensional Specifications}
+Based on the URDF and simulation models:
+\begin{itemize}
+    \item \textbf{Link 1} ($L_1$): 1.5 meters.
+    \item \textbf{Link 2} ($L_2$): 1.0 meters.
+    \item \textbf{Total Reach} ($R_{max}$): 2.5 meters.
+    \item \textbf{Minimum Reach} ($R_{min}$): $|L_1 - L_2| = 0.5$ meters.
+\end{itemize}
+
+\subsubsection{Workspace Geometry}
+Each robot operates in a toroidal (doughnut-shaped) workspace defined by two concentric circles:
+\begin{itemize}
+    \item \textbf{Outer Radius}: $R_{out} = L_1 + L_2 = 2.5$m.
+    \item \textbf{Inner Radius}: $R_{in} = |L_1 - L_2| = 0.5$m.
+\end{itemize}
+
+\subsection{Dual-Robot Spatial Configuration}
+
+\subsubsection{Position and Orientation in Global Frame}
+The robots are mounted symmetrically relative to the workspace center:
+\begin{itemize}
+    \item \textbf{Left Robot} $\{B_L\}$: Positioned at global $(2.0, -2.0, 0.2)$.
+    \item \textbf{Right Robot} $\{B_R\}$: Positioned at global $(2.0, 2.0, 0.2)$.
+    \item \textbf{Orientation}: Both base frames share the same orientation as the World Frame (Identity Rotation Matrix).
+\end{itemize}
+
+\subsubsection{Workspace Overlap and Collaborative Region}
+The workspace overlap allows both robots to access the central conveyor belt region. The collaborative zone is the intersection of the two toroidal workspaces, primarily centered along the Y-axis between $y=-0.5$ and $y=0.5$.
+
+\section{Kinematic Analysis}
+
+\subsection{Forward Kinematics (FK)}
+
+\subsubsection{Problem Definition}
+Determine the end-effector position $(x, y)$ given the joint angles $\theta_1$ and $\theta_2$.
+
+\subsubsection{Mathematical Derivation}
+Using the Denavit-Hartenberg (DH) convention for planar manipulators:
+\begin{align}
+    x &= L_1 \cos(\theta_1) + L_2 \cos(\theta_1 + \theta_2) \\
+    y &= L_1 \sin(\theta_1) + L_2 \sin(\theta_1 + \theta_2)
+\end{align}
+
+\subsubsection{Interpretation}
+The equations represent vector summation in the 2D plane. The first term is the vector to the elbow; the second term is the vector from the elbow to the wrist.
+
+\subsubsection{Numerical Example}
+Let $L_1 = 1.5, L_2 = 1.0$.
+If $\theta_1 = 0^\circ, \theta_2 = 90^\circ$:
+\begin{gather*}
+    x = 1.5 \cos(0) + 1.0 \cos(90) = 1.5 \\
+    y = 1.5 \sin(0) + 1.0 \sin(90) = 1.0
+\end{gather*}
+Result: End-effector is at $(1.5, 1.0)$.
+
+\subsection{Inverse Kinematics (IK)}
+
+\subsubsection{Problem Definition and Challenges}
+Determine the joint angles ($\theta_1, \theta_2$) required to reach a target $(x, y)$. This problem is non-linear and may have multiple solutions (``Elbow Up'' vs ``Elbow Down'').
+
+\subsubsection{Reachability Check}
+Before processing, we verify:
+\begin{equation}
+    R_{min}^2 \le x^2 + y^2 \le R_{max}^2
+\end{equation}
+\begin{equation}
+    0.5^2 \le x^2 + y^2 \le 2.5^2
+\end{equation}
+
+\subsubsection{Step 1: Elbow Angle Calculation}
+Using the Law of Cosines on the triangle formed by origin, elbow, and wrist:
+\begin{equation}
+    d^2 = L_1^2 + L_2^2 - 2 L_1 L_2 \cos(\pi - \theta_2)
+\end{equation}
+\begin{equation}
+    \theta_2 = \pm \arccos\left(\frac{x^2 + y^2 - L_1^2 - L_2^2}{2 L_1 L_2}\right)
+\end{equation}
+
+\subsubsection{Step 2: Shoulder Angle Calculation}
+Using geometric difference of angles:
+\begin{align}
+    \alpha &= \text{atan2}(y, x) \\
+    \beta &= \text{atan2}(L_2 \sin\theta_2, L_1 + L_2 \cos\theta_2) \\
+    \theta_1 &= \alpha - \beta
+\end{align}
+
+\subsubsection{Numerical Example: IK Solution}
+Target $(1.5, 1.0)$, $L_1=1.5, L_2=1.0$.
+\begin{enumerate}
+    \item $d^2 = 3.25$.
+    \item $\cos\theta_2 = (3.25 - 2.25 - 1.0) / 3.0 = 0 \implies \theta_2 = 90^\circ$.
+    \item $\alpha = \arctan(1/1.5) = 33.69^\circ$.
+    \item $\beta = \arctan(1.0/1.5) = 33.69^\circ$.
+    \item $\theta_1 = 0^\circ$.
+\end{enumerate}
+Result: $\theta_1 = 0^\circ, \theta_2 = 90^\circ$, matching the FK example.
+
+\subsection{Geometric Interpretation}
+The IK solution corresponds to finding the intersection points of two circles: one centered at the origin with radius $L_1$, and one centered at target $(x,y)$ with radius $L_2$.
+
+\section{Coordinate Transformations and Frame Conventions}
+
+\subsection{Frame Hierarchy}
+The software maintains a strict hierarchy:
+\begin{itemize}
+    \item World $\rightarrow$ Left\_Base $\rightarrow$ Left\_Shoulder ...
+    \item World $\rightarrow$ Right\_Base $\rightarrow$ Right\_Shoulder ...
+\end{itemize}
+
+\subsection{World to Local Transformation}
+
+\subsubsection{Transformation Principles}
+Robots operate in local coordinates relative to their base. User inputs are global.
+
+\subsubsection{Left Robot Transformation}
+\begin{equation}
+    P_{local\_L} = P_{world} - \begin{bmatrix} 2.0 \\ -2.0 \end{bmatrix}
+\end{equation}
+
+\subsubsection{Right Robot Transformation}
+\begin{equation}
+    P_{local\_R} = P_{world} - \begin{bmatrix} 2.0 \\ 2.0 \end{bmatrix}
+\end{equation}
+
+\subsubsection{Transformation Matrix Representation (2D)}
+For the Left Robot (Rotation is Identity):
+\begin{equation}
+    ^{Base}T_{World} = \begin{bmatrix} 1 & 0 & -2.0 \\ 0 & 1 & 2.0 \\ 0 & 0 & 1 \end{bmatrix}
+\end{equation}
+
+\subsubsection{3D Homogeneous Transformation Matrix}
+\begin{equation}
+    ^{B}T_{W} = \begin{bmatrix}
+    1 & 0 & 0 & -x_{base} \\
+    0 & 1 & 0 & -y_{base} \\
+    0 & 0 & 1 & -z_{base} \\
+    0 & 0 & 0 & 1
+    \end{bmatrix}
+\end{equation}
+
+\subsection{Inverse Transform: Local to World}
+\begin{equation}
+    P_{world} = P_{local} + P_{base}
+\end{equation}
+Used for visualization in RViz and verification.
+
+\subsection{Replication Math: Symmetric Task Execution}
+
+\subsubsection{Mimicry Principle}
+The system's core feature is symmetric replication. If the Left robot moves relative to its base by $(dx, dy)$, the Right robot should move relative to its base by $(dx, -dy)$ to maintain symmetry across the conveyor axis.
+
+\subsubsection{Vector-Based Approach}
+Let $\vec{v}_L$ be the vector from Left Base to Left Target. \\
+Let $\vec{v}_R$ be the vector from Right Base to Right Target.
+\begin{equation}
+    \vec{v}_R = \mathbf{M} \vec{v}_L
+\end{equation}
+Where $\mathbf{M} = \text{diag}(1, -1)$ is the reflection matrix across the X-axis.
+
+\subsubsection{Geometric Insight}
+This ensures that both robots approach the conveyor centerline (Local $Y > 0$ for Left, Local $Y < 0$ for Right) simultaneously.
+
+\subsubsection{Mathematical Verification}
+Left Target relative $(0, 1)$ $\rightarrow$ ``Move Forward 1m''. \\
+Right Target relative $(0, -1)$ $\rightarrow$ ``Move Forward 1m'' (since Right is on the opposite side, $-Y$ direction is towards the center).
+
+\section{Dynamics and Control Physics}
+
+\subsection{Equation of Motion}
+The dynamic behavior is governed by the standard Lagrangian equation of motion:
+\begin{equation}
+    M(\theta)\ddot{\theta} + V(\theta, \dot{\theta}) + G(\theta) + F(\dot{\theta}) = \tau
+\end{equation}
+
+\subsubsection{Newton-Euler Formulation}
+Alternatively, the recursive Newton-Euler method computes forces/torques link-by-link from base to tip (forward velocity) and tip to base (backward force) to derive $\tau$.
+
+\subsubsection{Inertia Matrix $M(\theta)$}
+A symmetric, positive-definite matrix representing the mass distribution. For SCARA:
+\begin{equation}
+    M_{11} = I_1 + I_2 + m_1 r_1^2 + m_2(L_1^2 + r_2^2 + 2L_1 r_2 \cos\theta_2)
+\end{equation}
+$M(\theta)$ changes as the robot arm extends and retracts, altering the effective moment of inertia.
+
+\subsubsection{Velocity-Dependent Terms $V(\theta, \dot{\theta})$}
+Includes:
+\begin{itemize}
+    \item \textbf{Coriolis Forces}: Interaction between links (e.g., shoulder rotation affecting elbow).
+    \item \textbf{Centrifugal Forces}: Forces pushing adjacent links outward during rotation.
+\end{itemize}
+
+\subsubsection{Gravity Term $G(\theta)$}
+Since our SCARA robots operate planar ($X$-$Y$), the gravity vector acts strictly in the $Z$-direction, orthogonal to the plane of motion. Thus, for joints $\theta_1, \theta_2$:
+\begin{equation}
+    G(\theta) = 0
+\end{equation}
+(Z-axis prismatic joint would have a gravity term).
+
+\subsubsection{Friction Term $F(\dot{\theta})$}
+Modeled as Coulomb + Viscous friction:
+\begin{equation}
+    F = F_v \dot{\theta} + F_c \text{sgn}(\dot{\theta})
+\end{equation}
+
+\subsection{Control Implications}
+
+\subsubsection{Torque Budget}
+The controllers must provide enough torque $\tau$ to overcome inertia and friction. Rapid acceleration phases ($\ddot{\theta}$) dominate the torque requirements.
+
+\subsubsection{Speed Advantage}
+Because gravity does not oppose planar motion, SCARA robots can achieve very high lateral speeds and accelerations compared to articulated arms.
+
+\section{Workspace Analysis}
+
+\subsection{Workspace Definition and Boundaries}
+
+\subsubsection{Reachable Workspace}
+Defined as the set of all points $P \in \mathbb{R}^3$ that the end-effector can reach.
+\begin{equation}
+    W = \{ P(x,y) \mid R_{in} \le \norm{P} \le R_{out} \}
+\end{equation}
+
+\subsubsection{Mathematical Boundary Conditions}
+\begin{enumerate}
+    \item \textbf{Outer Boundary}: Singular configuration where $\theta_2 = 0$. Reach $= L_1 + L_2$.
+    \item \textbf{Inner Boundary}: Singular configuration where $\theta_2 = 180^\circ$. Reach $= |L_1 - L_2|$.
+\end{enumerate}
+
+\subsection{Dual-Robot Collaborative Workspace}
+
+\subsubsection{Individual Workspaces}
+Two disjoint toroids separated by distance $D_{base\_y} = 4.0m$.
+
+\subsubsection{Workspace Intersection (Collaborative Region)}
+The robots can only collaborate where their workspaces overlap.
+Given $R_{max} = 2.5m$ and separation $4.0m$, overlap exists in the central strip.
+Condition for overlap: $2 \times R_{max} > \text{Base\_Separation}$.
+$5.0m > 4.0m \implies$ Overlap exists.
+
+\section{Singularity Theory and Management}
+
+\subsection{Singularity Concept and Definition}
+
+\subsubsection{Jacobian and Kinematic Singularities}
+The Jacobian $J$ maps joint velocities to cartesian velocities: $\dot{X} = J\dot{q}$. A singularity occurs when $J$ is non-invertible.
+
+\subsubsection{Singularity Definition}
+Mathematically, where $\det(J) = 0$.
+
+\subsubsection{Determinant Calculation}
+For a 2-link planer arm:
+\begin{equation}
+    \det(J) = L_1 L_2 \sin(\theta_2)
+\end{equation}
+Singularity condition: $\sin(\theta_2) = 0 \implies \theta_2 = 0, \pi$.
+
+\subsection{Physical Interpretation of Singularities}
+
+\subsubsection{Fully Extended Configuration ($\theta_2 = 0^\circ$)}
+The arm is straight. The robot cannot move directly towards or away from the base (radial direction) because the joint velocities are perpendicular to the radius.
+
+\subsubsection{Fully Folded Configuration ($\theta_2 = 180^\circ$)}
+The arm is folded back on itself. Similar constraint applies; radial motion is impossible.
+
+\subsection{Consequences and Impact on Control}
+
+\subsubsection{Velocity Singularity}
+Near singularity, small cartesian velocities require infinite joint velocities.
+\begin{equation}
+    \dot{q} = J^{-1} \dot{X}
+\end{equation}
+As $\det(J) \to 0$, $J^{-1} \to \infty$.
+
+\subsubsection{Force Singularity}
+Conversely, the robot can resist infinite forces in the singular direction (locking the arm straight).
+
+\subsection{Singularity Avoidance and Management Strategies}
+
+\subsubsection{Workspace Margin}
+Software limits are set to prevent the arm from reaching full extension (e.g., max reach capped at 99\%).
+
+\subsubsection{Manipulability Index}
+We monitor the measure $w = \sqrt{\det(JJ^T)}$ to assess how close the robot is to singularity.
+
+\subsubsection{Damped Least-Squares (DLS) Method}
+In close-to-singular regions, an inverse that minimizes norm error + damping factor is used to maintain stability.
+
+\section{Dual-Robot Coordination}
+
+\subsection{Synchronized Motion Architecture}
+
+\subsubsection{Task Specification}
+The Master (Left) robot receives a task $T_{left}$. The Slave (Right) robot automatically receives $T_{right} = \text{Mirror}(T_{left})$.
+
+\subsubsection{Motion Planning Pipeline}
+\begin{enumerate}
+    \item \textbf{Input}: User Cartesian Target.
+    \item \textbf{Manager}: Splits and Mirrors target.
+    \item \textbf{Planner (L/R)}: Computes IK and generates trajectory points.
+    \item \textbf{Hardware Interface}: Executes synchronized joint commands.
+\end{enumerate}
+
+\subsection{Replication Mathematics Deep Dive}
+
+\subsubsection{Vector Replication Formula}
+\begin{equation}
+    \vec{P}_R = \vec{P}_{BaseR} + \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} (\vec{P}_{Target} - \vec{P}_{BaseL})
+\end{equation}
+
+\section{Numerical Validation and Case Studies}
+
+\subsection{Case Study 1: Reachable Target Validation}
+\textbf{Input}: Global $(2.0, -3.5)$.
+\begin{itemize}
+    \item Rel Left: $(0, -1.5)$. $d=1.5$.
+    \item Reachable ($0.5 \le 1.5 \le 2.5$).
+    \item Robot moves.
+\end{itemize}
+
+\subsection{Case Study 2: Unreachable Target Rejection}
+\textbf{Input}: Global $(5.0, -2.0)$.
+\begin{itemize}
+    \item Rel Left: $(3.0, 0)$. $d=3.0$.
+    \item $3.0 > 2.5$ ($R_{max}$).
+    \item \textbf{Result}: IK Solver rejects target, logs warning.
+\end{itemize}
+
+\subsection{Case Study 3: Dual-Robot Replication}
+\textbf{Input}: $(2.0, -3.0)$ (Forward 1m from Left Base).
+\begin{itemize}
+    \item Right Robot commanded to $(2.0, 1.0)$ (Forward 1m from Right Base).
+    \item Symmetry maintained.
+\end{itemize}
+
+\section{Operational Guidelines and Safety}
+
+\subsection{Workspace Constraints and Limits}
+\begin{itemize}
+    \item \textbf{Max Reach}: 2.45m (Safety buffer applied).
+    \item \textbf{Joint Velocity Limit}: 2.0 rad/s.
+    \item \textbf{Joint 1 Range}: $\pm 150^\circ$.
+    \item \textbf{Joint 2 Range}: $\pm 150^\circ$.
+\end{itemize}
+
+\subsection{Singularity Avoidance Procedures}
+Operators should avoid commanding targets near the base (Inner Singularity) or at the extreme edge (Outer Singularity).
+
+\section{Appendices}
+
+\subsection{A. Mathematical Reference}
+\begin{itemize}
+    \item Law of Cosines: $c^2 = a^2 + b^2 - 2ab \cos C$.
+    \item Rotation Matrix 2D: $R(\theta) = [[c\theta, -s\theta], [s\theta, c\theta]]$.
+\end{itemize}
+
+\subsection{B. Implementation Checklist}
+\begin{itemize}
+    \item [x] URDF Model Verification ($L_1, L_2$).
+    \item [x] IK Solver Test.
+    \item [x] Mirroring Logic Test.
+    \item [x] Controller Tuning.
+\end{itemize}
+
+\subsection{C. Numerical Constants Summary}
+\begin{table}[H]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Parameter} & \textbf{Value} & \textbf{Unit} \\
+\midrule
+$L_1$ & 1.5 & m \\
+$L_2$ & 1.0 & m \\
+Base Separation & 4.0 & m \\
+$K_p$ & 10.0 & - \\
+\bottomrule
+\end{tabular}
+\caption{System Constants}
+\end{table}
+
+\end{document}

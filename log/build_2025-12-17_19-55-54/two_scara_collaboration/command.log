@@ -1,0 +1,2 @@
+Invoking command in '/home/km/two_scara_ros2/build/two_scara_collaboration': /usr/bin/cmake /home/km/two_scara_ros2/src/two_scara_collaboration -DCMAKE_INSTALL_PREFIX=/home/km/two_scara_ros2/install/two_scara_collaboration
+Invoked command in '/home/km/two_scara_ros2/build/two_scara_collaboration' returned '1': /usr/bin/cmake /home/km/two_scara_ros2/src/two_scara_collaboration -DCMAKE_INSTALL_PREFIX=/home/km/two_scara_ros2/install/two_scara_collaboration

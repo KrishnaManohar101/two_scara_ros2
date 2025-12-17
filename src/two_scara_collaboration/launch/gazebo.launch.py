@@ -154,7 +154,7 @@ def generate_launch_description():
         gz_client,
         rsp,
         delayed_spawn_robot,
-        delayed_block_spawner,
+        # delayed_block_spawner,
         block_publisher,
         # conveyor_driver, # Run manually: python3 src/.../conveyor_driver.py
         scara_left_planner,

@@ -4,15 +4,12 @@
   <link name="world"/>
 
   <!-- Include Macros -->
-  <xacro:include filename="$(find two_scara_collaboration)/urdf/conveyor_belt.urdf.xacro"/>
+
   <xacro:include filename="$(find two_scara_collaboration)/urdf/scara_left.urdf.xacro"/>
   <xacro:include filename="$(find two_scara_collaboration)/urdf/scara_right.urdf.xacro"/>
 
   <!-- Instantiate Elements -->
-  <!-- Conveyor -->
-  <xacro:conveyor_belt_macro parent="world">
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-  </xacro:conveyor_belt_macro>
+
 
   <!-- Left Robot -->
   <joint name="scara_left_to_world" type="fixed">
@@ -30,35 +27,7 @@
   </joint>
   <xacro:scara_right_robot/>
 
-  <!-- Basket -->
-  <joint name="basket_joint" type="fixed">
-    <parent link="world"/>
-    <child link="basket_link"/>
-    <origin xyz="2.0 -4.0 0.1" rpy="0 0 0"/>
-  </joint>
 
-  <link name="basket_link">
-    <visual>
-      <geometry>
-        <box size="0.5 0.5 0.2"/>
-      </geometry>
-      <material name="red">
-        <color rgba="1 0 0 1"/>
-      </material>
-    </visual>
-    <collision>
-      <geometry>
-        <box size="0.5 0.5 0.2"/>
-      </geometry>
-    </collision>
-    <inertial>
-      <mass value="10"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
-    </inertial>
-  </link>
-  <gazebo reference="basket_link">
-    <material>Gazebo/Red</material>
-  </gazebo>
 
   <!-- Global ros2_control plugin -->
   <gazebo>

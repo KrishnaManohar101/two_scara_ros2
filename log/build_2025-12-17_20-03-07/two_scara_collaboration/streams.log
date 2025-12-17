@@ -1,0 +1,21 @@
+[0.017s] Invoking command in '/home/km/two_scara_ros2/build/two_scara_collaboration': /usr/bin/cmake /home/km/two_scara_ros2/src/two_scara_collaboration -DCMAKE_INSTALL_PREFIX=/home/km/two_scara_ros2/install/two_scara_collaboration
+[0.034s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.305s] Traceback (most recent call last):
+[0.306s]   File "/opt/ros/humble/share/ament_cmake_core/cmake/package_templates/templates_2_cmake.py", line 21, in <module>
+[0.306s]     from ament_package.templates import get_environment_hook_template_path
+[0.306s] ModuleNotFoundError: No module named 'ament_package'
+[0.324s] [31mCMake Error at /opt/ros/humble/share/ament_cmake_core/cmake/ament_cmake_package_templates-extras.cmake:41 (message):
+[0.324s]   execute_process(/usr/bin/python3
+[0.325s]   /opt/ros/humble/share/ament_cmake_core/cmake/package_templates/templates_2_cmake.py
+[0.325s]   /home/km/two_scara_ros2/build/two_scara_collaboration/ament_cmake_package_templates/templates.cmake)
+[0.325s]   returned error code 1
+[0.325s] Call Stack (most recent call first):
+[0.325s]   /opt/ros/humble/share/ament_cmake_core/cmake/ament_cmake_coreConfig.cmake:41 (include)
+[0.325s]   /opt/ros/humble/share/ament_cmake/cmake/ament_cmake_export_dependencies-extras.cmake:15 (find_package)
+[0.326s]   /opt/ros/humble/share/ament_cmake/cmake/ament_cmakeConfig.cmake:41 (include)
+[0.326s]   CMakeLists.txt:9 (find_package)
+[0.326s] 
+[0.326s] [0m
+[0.326s] -- Configuring incomplete, errors occurred!
+[0.326s] See also "/home/km/two_scara_ros2/build/two_scara_collaboration/CMakeFiles/CMakeOutput.log".
+[0.330s] Invoked command in '/home/km/two_scara_ros2/build/two_scara_collaboration' returned '1': /usr/bin/cmake /home/km/two_scara_ros2/src/two_scara_collaboration -DCMAKE_INSTALL_PREFIX=/home/km/two_scara_ros2/install/two_scara_collaboration
