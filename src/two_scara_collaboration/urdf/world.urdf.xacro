@@ -26,7 +26,7 @@
   <joint name="scara_right_to_world" type="fixed">
     <parent link="world"/>
     <child link="scara_right_base_link"/>
-    <origin xyz="2 1 0.2" rpy="0 0 0"/>
+    <origin xyz="2 2 0.2" rpy="0 0 0"/>
   </joint>
   <xacro:scara_right_robot/>
 

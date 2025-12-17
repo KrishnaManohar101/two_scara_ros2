@@ -111,7 +111,7 @@ class AutomationManager(Node):
                 target_y = right_base_y + ry
                 
                 self.get_logger().info(f'Right: Base({right_base_x}, {right_base_y}) + Rel({rx:.2f}, {ry:.2f}) -> Global({target_x:.2f}, {target_y:.2f})')
-                self.send_right_arm(target_x, target_y)
+                self.send_right_arm(rx, ry)
                 
                 self.right_state = 'MOVING'
                 self.right_move_start = time.time()

@@ -25,8 +25,8 @@
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/km/two_scara_ros2/build/two_scara_collaboration
-Built target ament_cmake_python_symlink_two_scara_collaboration_setup
 Built target ament_cmake_python_symlink_two_scara_collaboration
+Built target ament_cmake_python_symlink_two_scara_collaboration_setup
 running egg_info
 creating two_scara_collaboration.egg-info
 writing two_scara_collaboration.egg-info/PKG-INFO

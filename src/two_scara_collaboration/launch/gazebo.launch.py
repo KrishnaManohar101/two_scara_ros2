@@ -137,7 +137,7 @@ def generate_launch_description():
     
     # Group controllers
     delayed_controllers = TimerAction(
-        period=20.0,
+        period=10.0,
         actions=[load_jsb, load_left_arm, load_left_grip, load_right_arm, load_right_grip]
     )
 

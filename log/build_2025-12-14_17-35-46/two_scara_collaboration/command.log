@@ -1,4 +1,0 @@
-Invoking command in '/home/km/two_scara_ros2/build/two_scara_collaboration': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/km/two_scara_ros2/build/two_scara_collaboration -- -j16 -l16
-Invoked command in '/home/km/two_scara_ros2/build/two_scara_collaboration' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/km/two_scara_ros2/build/two_scara_collaboration -- -j16 -l16
-Invoking command in '/home/km/two_scara_ros2/build/two_scara_collaboration': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/km/two_scara_ros2/build/two_scara_collaboration
-Invoked command in '/home/km/two_scara_ros2/build/two_scara_collaboration' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/km/two_scara_ros2/build/two_scara_collaboration
