@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Kinematics module for SCARA robots - Forward and Inverse Kinematics
+Includes Optimization-based Trajectory Generation
 """
 
 import numpy as np
@@ -95,12 +96,77 @@ class SCARAKinematics:
         c12 = np.cos(theta1 + theta2)
         s12 = np.sin(theta1 + theta2)
         
+        # J = [ dx/dtheta1  dx/dtheta2 ]
+        #     [ dy/dtheta1  dy/dtheta2 ]
+        
         J = np.array([
             [-self.l1 * s1 - self.l2 * s12, -self.l2 * s12],
             [self.l1 * c1 + self.l2 * c12, self.l2 * c12]
         ])
         
         return J
+
+    def generate_straight_line_path(self, start_joints, end_coords, duration=2.0, dt=0.05):
+        """
+        Generates a trajectory using Differential Kinematics (Lagrange Optimization result).
+        Minimizes joint velocity deviations while maintaining a straight line path.
+        
+        Args:
+            start_joints: Tuple (theta1, theta2)
+            end_coords: Tuple (x, y) target
+            duration: Total move time (s)
+            dt: Time step (s)
+            
+        Returns:
+            trajectory_points: List of (t, theta1, theta2)
+        """
+        # Initial State
+        current_theta = np.array(start_joints)
+        
+        # Start FK
+        start_x, start_y = self.forward_kinematics(*start_joints)
+        start_pos = np.array([start_x, start_y])
+        end_pos = np.array(end_coords)
+        
+        # Calculate Constant Cartesian Velocity required to reach target in 'duration'
+        # v = dX / dt
+        total_displacement = end_pos - start_pos
+        velocity_vector = total_displacement / duration
+        
+        trajectory_points = []
+        steps = int(duration / dt)
+        
+        for i in range(steps + 1):
+            t = i * dt
+            
+            # Store current point
+            trajectory_points.append((t, current_theta[0], current_theta[1]))
+            
+            # 1. Calculate Jacobian at current configuration
+            J = self.jacobian(current_theta[0], current_theta[1])
+            
+            # 2. Solve for Joint Velocities: J * q_dot = v
+            # Using pinv which is the solution to Min ||q_dot||^2 s.t. J*q_dot = v
+            # This is the Lagrange Multiplier application result.
+            try:
+                J_inv = np.linalg.pinv(J)
+                q_dot = np.dot(J_inv, velocity_vector)
+            except np.linalg.LinAlgError:
+                # Singularity handling: just stop or use damping
+                q_dot = np.array([0.0, 0.0])
+            
+            # 3. Integrate (Euler Integration) -> q_new = q + q_dot * dt
+            current_theta = current_theta + q_dot * dt
+            
+            # Optional: Feedback Correction (Closed Loop) to prevent drift
+            # Not strictly part of the differential optimization but good for practice
+            # projected_pos = start_pos + velocity_vector * (t + dt)
+            # actual_pos = np.array(self.forward_kinematics(*current_theta))
+            # error = projected_pos - actual_pos
+            # current_theta += np.dot(J_inv, error) * 0.1 # Gain
+            
+        return trajectory_points
+
     
     def is_singular(self, theta1, theta2, threshold=0.01):
         """

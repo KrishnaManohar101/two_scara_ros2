@@ -19,10 +19,11 @@ class AutomationManager(Node):
     def __init__(self):
         super().__init__('automation_manager')
         
-        # Kinematics Solver (L1=1.5, L2=1.0 based on URDF)
+        # --- KINEMATICS ---
+        # L1=1.5, L2=1.0 based on URDF analysis
         self.kinematics = SCARAKinematics(l1=1.5, l2=1.0)
         
-        # Publisher for Left Robot (Direct Joint Control)
+        # --- PUBLISHERS (Direct Joint Control) ---
         self.arm_pub = self.create_publisher(Float64MultiArray, '/scara_left_arm_controller/commands', 10)
         self.quill_pub = self.create_publisher(Float64MultiArray, '/scara_left_gripper_controller/commands', 10)
         
