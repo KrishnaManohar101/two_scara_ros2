@@ -1,6 +1,6 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="scara_right">
 
-<xacro:macro name="scara_right_robot">
+<xacro:macro name="scara_right_robot" params="thickness:=0.1">
 
   <!-- ROS2 Control -->
   <ros2_control name="RightGazeboSystem" type="system">
@@ -30,13 +30,13 @@
     <collision>
       <origin xyz="0 0 0.2" rpy="0 0 0"/>
       <geometry>
-        <cylinder length="0.4" radius="0.1"/>
+        <cylinder length="0.4" radius="${thickness}"/>
       </geometry>
     </collision>
     <visual>
       <origin xyz="0 0 0.2" rpy="0 0 0"/>
       <geometry>
-        <cylinder length="0.4" radius="0.1"/>
+        <cylinder length="0.4" radius="${thickness}"/>
       </geometry>
       <material name="gray">
         <color rgba="0.5 0.5 0.5 1"/>
@@ -60,15 +60,15 @@
 
   <link name="scara_right_link_1">
     <collision>
-      <origin xyz="0 0.75 0.05" rpy="0 0 0"/>
+      <origin xyz="0 0.75 ${thickness/2}" rpy="0 0 0"/>
       <geometry>
-        <box size="0.1 1.6 0.1"/>
+        <box size="${thickness} 1.6 ${thickness}"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0.75 0.05" rpy="0 0 0"/>
+      <origin xyz="0 0.75 ${thickness/2}" rpy="0 0 0"/>
       <geometry>
-        <box size="0.1 1.6 0.1"/>
+        <box size="${thickness} 1.6 ${thickness}"/>
       </geometry>
       <material name="blue">
         <color rgba="0 0 1 1"/>
@@ -95,15 +95,15 @@
 
   <link name="scara_right_link_2">
     <collision>
-      <origin xyz="0 0.5 0.05" rpy="0 0 0"/>
+      <origin xyz="0 0.5 ${thickness/2}" rpy="0 0 0"/>
       <geometry>
-        <box size="0.1 1.1 0.1"/>
+        <box size="${thickness} 1.1 ${thickness}"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0.5 0.05" rpy="0 0 0"/>
+      <origin xyz="0 0.5 ${thickness/2}" rpy="0 0 0"/>
       <geometry>
-        <box size="0.1 1.1 0.1"/>
+        <box size="${thickness} 1.1 ${thickness}"/>
       </geometry>
       <material name="cyan">
         <color rgba="0 1 1 1"/>

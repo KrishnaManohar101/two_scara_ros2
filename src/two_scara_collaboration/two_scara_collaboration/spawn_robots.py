@@ -19,6 +19,15 @@ class RobotSpawner(Node):
     def __init__(self):
         super().__init__('robot_spawner')
         
+        # Declare profile parameter
+        self.declare_parameter('profile', 'default')
+        self.profile = self.get_parameter('profile').get_parameter_value().string_value
+        
+        # Set thickness based on profile
+        self.thickness = "0.1"
+        if self.profile == 'slim': self.thickness = "0.05"
+        elif self.profile == 'heavy': self.thickness = "0.15"
+        
         # Get package path
         from ament_index_python.packages import get_package_share_directory
         self.pkg_dir = get_package_share_directory('two_scara_collaboration')
@@ -29,7 +38,7 @@ class RobotSpawner(Node):
         while not self.spawn_client.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('Waiting for Gazebo spawn service...')
         
-        self.get_logger().info('Robot Spawner node started')
+        self.get_logger().info(f'Robot Spawner node started with profile: {self.profile}')
         
         # Spawn robots on initialization
         self.spawn_all_robots()
@@ -37,16 +46,10 @@ class RobotSpawner(Node):
     def load_urdf(self, xacro_file):
         """
         Load and process XACRO file to URDF
-        
-        Args:
-            xacro_file: Path to XACRO file
-            
-        Returns:
-            str: URDF content
         """
         try:
-            # Process XACRO file
-            doc = xacro.process_file(xacro_file)
+            # Process XACRO file with thickness mapping
+            doc = xacro.process_file(xacro_file, mappings={'thickness': self.thickness, 'robot_thickness': self.thickness})
             urdf_str = doc.toxml()
             return urdf_str
         except Exception as e:

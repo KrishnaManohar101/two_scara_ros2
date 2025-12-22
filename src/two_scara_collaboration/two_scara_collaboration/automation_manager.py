@@ -71,16 +71,18 @@ class AutomationManager(Node):
         while rclpy.ok():
             try:
                 print("\n--- Enter Target Coordinates (World Frame) ---")
-                print("Example: 2.0 -4.0")
-                x_str = input("Enter X: ")
-                y_str = input("Enter Y: ")
+                print("Example: 2.0 -4.0 1.5")
+                x_str = input("Enter World X: ")
+                y_str = input("Enter World Y: ")
+                z_str = input("Enter World Z (Height): ")
                 
                 try:
                     x = float(x_str)
                     y = float(y_str)
-                    self.manual_target_world = (x, y)
+                    z = float(z_str)
+                    self.manual_target_world = (x, y, z)
                     self.target_block = "Manual_Input"
-                    print(f"Commanding Robot to World({x}, {y})...")
+                    print(f"Commanding Robot to World({x}, {y}, {z})...")
                 except ValueError:
                     print("Invalid number. Try again.")
             except EOFError:
@@ -95,7 +97,7 @@ class AutomationManager(Node):
         try:
             # Extract positions of Left Robot Joints
             current_positions = []
-            valid_names = ['scara_left_joint_1', 'scara_left_joint_2']
+            valid_names = ['scara_left_joint_1', 'scara_left_joint_2', 'scara_left_gripper_joint']
             
             for name in valid_names:
                 if name in msg.name:
@@ -137,54 +139,68 @@ class AutomationManager(Node):
         except Exception as e:
             self.get_logger().error(f"Error in callback: {e}")
 
+    def execute_smooth_motion(self, arm_pub, quill_pub, start_joints, target_joints, duration=2.0):
+        """Interpolates and publishes commands sequentially: XY first, then Z"""
+        # Step 1: Translation (X-Y Plane)
+        xy_start_time = time.time()
+        print(f" -> Phase 1: TRANSLATION (Moving Arm to X,Y position)...")
+        points = int(duration * 20)
+        for i in range(points + 1):
+            alpha = i / points
+            j1 = start_joints[0] + alpha * (target_joints[0] - start_joints[0])
+            j2 = start_joints[1] + alpha * (target_joints[1] - start_joints[1])
+            
+            msg = Float64MultiArray()
+            msg.data = [j1, j2]
+            arm_pub.publish(msg)
+            time.sleep(1.0 / 20.0)
+        
+        # Step 2: Insertion (Z-Axis)
+        print(f" -> Phase 2: INSERTION (Moving Gripper to Z height)...")
+        for i in range(points + 1):
+            alpha = i / points
+            # Keep X/Y at final target
+            j3_math = start_joints[2] + alpha * (target_joints[2] - start_joints[2])
+            
+            z_msg = Float64MultiArray()
+            z_msg.data = [-j3_math] 
+            quill_pub.publish(z_msg)
+            time.sleep(1.0 / 20.0)
+        
+        total_move_time = time.time() - xy_start_time
+        return total_move_time
+
     def control_loop(self):
         # LEFT ROBOT LOGIC
         if self.target_block == "Manual_Input" and self.state == 'IDLE':
-            # Transform World -> Robot Frame
+            self.total_start_time = time.time()
             rel_x = self.manual_target_world[0] - self.base_x
             rel_y = self.manual_target_world[1] - self.base_y
+            rel_z = self.manual_target_world[2]
             
-            self.last_left_rel_target = (rel_x, rel_y)
+            self.last_left_rel_target = (rel_x, rel_y, rel_z)
             
-            # Check Reachability (Max Reach ~2.5m)
             dist = math.sqrt(rel_x**2 + rel_y**2)
             if dist > 2.5:
-                 self.get_logger().warn(f"Target Out of Reach! Dist: {dist:.2f}m > Max: 2.5m. Try closer to Base(2.0, -2.0).")
+                 self.get_logger().warn(f"Target Out of Reach!")
                  self.target_block = None
                  return
 
-            self.get_logger().info(f'Left: Moving to World{self.manual_target_world} (Rel: {rel_x:.2f}, {rel_y:.2f})...')
-            self.send_arm_command(rel_x, rel_y)
+            self.get_logger().info('Left Robot starting movement (Sequential XY then Z)...')
+            self.left_exec_time = self.send_arm_command(rel_x, rel_y, rel_z)
             
             self.state = 'MOVING'
             self.move_start_time = time.time()
-            # Reset Timing Flags
             self.has_started_physically = False
-            self.settle_start_time = None
             self.actual_duration = None
-            self.last_joint_positions = None
             
-            self.target_block = None # Clear trigger
+            self.target_block = None
             
         elif self.state == 'MOVING':
-            # Wait for 5 seconds for motion to complete
-            # Wait for physical completion or max timeout (whichever comes first)
-            is_done = False
-            
-            # If we detected a stop physically
-            if self.actual_duration is not None:
-                is_done = True
-            # Or if it's been too long (backup timeout 8s)
-            elif (time.time() - self.move_start_time) > 8.0:
-                is_done = True
-                self.actual_duration = 8.0
-
-            if is_done:
-                # Determine what to log
-                log_time = self.actual_duration
-                self.left_move_duration = log_time
-                
-                self.get_logger().info(f'Left: Motion Complete. Actual Time: {log_time:.3f}s.')
+            # Simplified for demo: wait for the smooth motion to end (4 seconds total)
+            if (time.time() - self.move_start_time) > 4.5:
+                self.left_end_time = time.time()
+                self.get_logger().info(f'Left Robot Complete in {self.left_exec_time:.2f}s.')
                 self.state = 'IDLE'
                 
                 # Schedule Right Robot
@@ -193,85 +209,46 @@ class AutomationManager(Node):
 
         # RIGHT ROBOT LOGIC (Replication)
         if self.right_state == 'WAITING':
-            if time.time() - self.right_start_delay > 0.0:
-                self.get_logger().info('Right: Replication Started! Mimicking Left Robot...')
+            # The delay after left robot finishes
+            delay = time.time() - self.left_end_time
+            if delay >= 0.5: # 0.5 second safety delay
+                self.right_actual_start = time.time()
+                self.get_logger().info(f'Right Robot starting replication after {delay:.2f}s delay...')
                 
-                # Retrieve Relative Move
-                rx, ry = self.last_left_rel_target
-                
-                # Calculate Right Robot Global Target (RightBase + Relative)
-                right_base_x = 2.0
-                right_base_y = 2.0
-                
-                target_x = right_base_x + rx
-                target_y = right_base_y + ry
-                
-                self.get_logger().info(f'Right: Base({right_base_x}, {right_base_y}) + Rel({rx:.2f}, {ry:.2f}) -> Global({target_x:.2f}, {target_y:.2f})')
-                
-                # Log Data
-                self.log_calculation(rx, ry, right_base_x, right_base_y, target_x, target_y, self.left_move_duration)
-                
-                self.send_right_arm(rx, ry)
+                rx, ry, rz = self.last_left_rel_target
+                self.right_exec_time = self.send_right_arm(rx, ry, rz)
                 
                 self.right_state = 'MOVING'
                 self.right_move_start = time.time()
 
         elif self.right_state == 'MOVING':
-             if time.time() - self.right_move_start > 5.0:
-                 self.get_logger().info('Right: Done.')
+             if time.time() - self.right_move_start > 4.5:
+                 total_combined_time = time.time() - self.total_start_time
+                 self.get_logger().info('--- PERFORMANCE SUMMARY ---')
+                 self.get_logger().info(f'Left Robot Time:  {self.left_exec_time:.2f}s')
+                 self.get_logger().info(f'Inter-Robot Delay: {0.50:.2f}s')
+                 self.get_logger().info(f'Right Robot Time: {self.right_exec_time:.2f}s')
+                 self.get_logger().info(f'TOTAL MISSION TIME: {total_combined_time:.2f}s')
+                 self.get_logger().info('---------------------------')
                  self.right_state = 'IDLE'
 
-    def send_arm_command(self, x, y):
-        # Inverse Kinematics
-        theta1, theta2 = self.kinematics.inverse_kinematics(x, y, elbow='up')
+    def send_arm_command(self, x, y, z):
+        theta1, theta2, d3 = self.kinematics.inverse_kinematics(x, y, z, elbow='up')
+        if theta1 is None: return 0.0
         
-        if theta1 is None:
-            self.get_logger().error("Target Unreachable (IK Failed)")
-            return
+        if self.last_joint_positions: start_joints = self.last_joint_positions
+        else: start_joints = [0.0, 0.0, 0.0] 
 
-        # Execute Smooth Motion (Left)
-        # We need to know current position. If unknown (first move), assume 0.0 or read from self.last_joint_positions
-        if self.last_joint_positions:
-            start_joints = self.last_joint_positions
-        else:
-            start_joints = [0.0, 0.0] # Default start
-
-        target_joints = [float(theta1), float(theta2)]
-        self.execute_smooth_motion(self.arm_pub, start_joints, target_joints, duration=2.0)
+        target_joints = [float(theta1), float(theta2), float(d3)]
+        return self.execute_smooth_motion(self.arm_pub, self.quill_pub, start_joints, target_joints, duration=2.0)
         
-    def send_right_arm(self, x, y):
-        # Inverse Kinematics
-        theta1, theta2 = self.kinematics.inverse_kinematics(x, y, elbow='up')
-        
-        if theta1 is None:
-             self.get_logger().error("Right Target Unreachable (IK Failed)")
-             return
+    def send_right_arm(self, x, y, z):
+        theta1, theta2, d3 = self.kinematics.inverse_kinematics(x, y, z, elbow='up')
+        if theta1 is None: return 0.0
              
-        # For Right Robot, we don't track its state in self.last_joint_positions (that's for Left).
-        # We will assume it starts from "Home" or where we last sent it. 
-        # Ideally we should subscribe to right robot states too. 
-        # usage: Just snap for now? No, user asked for smooth.
-        # Let's approximate start as 0,0 or just do a simple interpolation
-        start_joints = [0.0, 0.0] 
-        target_joints = [float(theta1), float(theta2)]
-        
-        self.execute_smooth_motion(self.right_arm_pub, start_joints, target_joints, duration=2.0)
-
-    def execute_smooth_motion(self, publisher, start_joints, target_joints, duration=2.0):
-        """Interpolates and publishes commands over time"""
-        points = int(duration * 20) # 20 Hz
-        
-        for i in range(points + 1):
-            alpha = i / points
-            
-            # Linear Interpolation
-            j1 = start_joints[0] + alpha * (target_joints[0] - start_joints[0])
-            j2 = start_joints[1] + alpha * (target_joints[1] - start_joints[1])
-            
-            msg = Float64MultiArray()
-            msg.data = [j1, j2]
-            publisher.publish(msg)
-            time.sleep(1.0 / 20.0) # wait 50ms
+        start_joints = [0.0, 0.0, 0.0] 
+        target_joints = [float(theta1), float(theta2), float(d3)]
+        return self.execute_smooth_motion(self.right_arm_pub, self.right_quill_pub, start_joints, target_joints, duration=2.0)
 
     def init_log_file(self):
         """Creates CSV file with headers if it doesn't exist or is outdated"""

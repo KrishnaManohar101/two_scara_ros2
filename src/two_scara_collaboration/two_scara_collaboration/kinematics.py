@@ -9,61 +9,62 @@ import math
 
 class SCARAKinematics:
     """
-    Forward and Inverse Kinematics for SCARA robot
+    Forward and Inverse Kinematics for 3D SCARA robot
+    Includes Dynamics calculations (Inertia, Gravity, Torque)
     """
     
-    def __init__(self, l1=0.5, l2=0.5):
+    def __init__(self, l1=1.5, l2=1.0, h_base=2.0, mass_l1=5.0, mass_l2=3.0, mass_payload=1.0):
         """
-        Initialize SCARA kinematics
+        Initialize SCARA kinematics with physical properties
         
         Args:
-            l1: Length of first link (m)
-            l2: Length of second link (m)
+            l1, l2: Length of links (m)
+            h_base: Height of the base (m)
+            mass_l1, mass_l2: Mass of the links (kg)
+            mass_payload: Mass of the object being carried (kg)
         """
         self.l1 = l1
         self.l2 = l2
-    
-    def forward_kinematics(self, theta1, theta2):
-        """
-        Calculate end effector position from joint angles
+        self.h_base = h_base
         
-        Args:
-            theta1: Angle of joint 1 (radians)
-            theta2: Angle of joint 2 (radians)
-            
-        Returns:
-            x, y: End effector position
+        # Physics Parameters
+        self.m1 = mass_l1
+        self.m2 = mass_l2
+        self.m_p = mass_payload
+        self.g = 9.81  # Gravity m/s^2
+    
+    def forward_kinematics(self, theta1, theta2, d3):
         """
+        --- 3D FORWARD KINEMATICS EQUATION ---
+        Input: Joint Angles (theta1, theta2) and Prismatic Extension (d3)
+        Output: Cartesian Position (x, y, z)
+        """
+        # Planar X-Y Equations (Standard SCARA)
         x = self.l1 * np.cos(theta1) + self.l2 * np.cos(theta1 + theta2)
         y = self.l1 * np.sin(theta1) + self.l2 * np.sin(theta1 + theta2)
         
-        return x, y
+        # 3D Z Equation (Decoupled Prismatic Joint)
+        z = self.h_base - d3  # Assumption: d3=0 is top, d3=max is bottom
+        
+        return x, y, z
     
-    def inverse_kinematics(self, x, y, elbow='up'):
+    def inverse_kinematics(self, x, y, z, elbow='up'):
         """
-        Calculate joint angles from end effector position
-        
-        Args:
-            x: X position of end effector
-            y: Y position of end effector
-            elbow: 'up' or 'down' - which solution to use
-            
-        Returns:
-            theta1, theta2: Joint angles (radians)
-            
-        Returns None if position is unreachable
+        --- 3D INVERSE KINEMATICS EQUATION ---
+        Input: Target Destination (x, y, z)
+        Output: Required Joint Values (theta1, theta2, d3)
         """
-        # Calculate distance from origin to target
-        d = np.sqrt(x**2 + y**2)
+        # 1. Solve for Prismatic Joint d3
+        d3 = self.h_base - z
         
-        # Check if target is reachable
+        # 2. Solve for Planar joints theta1, theta2 using Law of Cosines
+        d_sq = x**2 + y**2
+        d = np.sqrt(d_sq)
+        
         if d > (self.l1 + self.l2) or d < abs(self.l1 - self.l2):
-            return None, None
+            return None, None, None
         
-        # Law of cosines to find theta2
-        cos_theta2 = (d**2 - self.l1**2 - self.l2**2) / (2 * self.l1 * self.l2)
-        
-        # Clamp to valid range to avoid numerical errors
+        cos_theta2 = (d_sq - self.l1**2 - self.l2**2) / (2 * self.l1 * self.l2)
         cos_theta2 = np.clip(cos_theta2, -1.0, 1.0)
         
         if elbow == 'up':
@@ -71,99 +72,90 @@ class SCARAKinematics:
         else:
             theta2 = -np.arccos(cos_theta2)
         
-        # Find theta1 using atan2
         alpha = np.arctan2(y, x)
         beta = np.arctan2(self.l2 * np.sin(theta2), 
                          self.l1 + self.l2 * np.cos(theta2))
         
         theta1 = alpha - beta
         
-        return theta1, theta2
+        return theta1, theta2, d3
+
+    def calculate_dynamics(self, theta1, theta2, q_ddot):
+        """
+        --- ROBOT DYNAMICS (Lagrangian Mechanics) ---
+        Formula: Torque = M(q) * q_ddot + G(q)
+        """
+        # --- A. Inertia / Mass Matrix M(q) ---
+        # M11 is the Moment of Inertia of the entire arm around the base
+        # It depends on theta2 (how 'folded' the arm is)
+        M11 = (self.m1 + self.m2 + self.m_p) * self.l1**2 + \
+              (self.m2 + self.m_p) * (self.l2**2 + 2 * self.l1 * self.l2 * np.cos(theta2))
+        M22 = (self.m2 + self.m_p) * self.l2**2
+        M33 = self.m1 + self.m2 + self.m_p # Fixed mass for vertical motion
+        
+        # --- B. Gravity Vector G(q) ---
+        G1 = 0.0 # No gravity in X-Y plane for horizontal SCARA
+        G2 = 0.0 # No gravity in X-Y plane for horizontal SCARA
+        G3 = (self.m2 + self.m_p) * self.g # Vertical gravity force
+        
+        # --- C. Final Torque/Force Calculation ---
+        torque1 = M11 * q_ddot[0] + G1
+        torque2 = M22 * q_ddot[1] + G2
+        force3  = M33 * q_ddot[2] + G3
+        
+        return [torque1, torque2, force3]
     
     def jacobian(self, theta1, theta2):
-        """
-        Calculate Jacobian matrix for velocity mapping
-        
-        Args:
-            theta1: Angle of joint 1
-            theta2: Angle of joint 2
-            
-        Returns:
-            J: 2x2 Jacobian matrix
-        """
+        """2D Jacobian for horizontal motion"""
         c1 = np.cos(theta1)
         s1 = np.sin(theta1)
         c12 = np.cos(theta1 + theta2)
         s12 = np.sin(theta1 + theta2)
         
-        # J = [ dx/dtheta1  dx/dtheta2 ]
-        #     [ dy/dtheta1  dy/dtheta2 ]
-        
         J = np.array([
             [-self.l1 * s1 - self.l2 * s12, -self.l2 * s12],
             [self.l1 * c1 + self.l2 * c12, self.l2 * c12]
         ])
-        
         return J
 
     def generate_straight_line_path(self, start_joints, end_coords, duration=2.0, dt=0.05):
         """
-        Generates a trajectory using Differential Kinematics (Lagrange Optimization result).
-        Minimizes joint velocity deviations while maintaining a straight line path.
-        
-        Args:
-            start_joints: Tuple (theta1, theta2)
-            end_coords: Tuple (x, y) target
-            duration: Total move time (s)
-            dt: Time step (s)
-            
-        Returns:
-            trajectory_points: List of (t, theta1, theta2)
+        Generates 3D trajectory minimizing joint velocity
         """
-        # Initial State
-        current_theta = np.array(start_joints)
+        curr_theta1, curr_theta2, curr_d3 = start_joints
+        target_x, target_y, target_z = end_coords
         
-        # Start FK
-        start_x, start_y = self.forward_kinematics(*start_joints)
-        start_pos = np.array([start_x, start_y])
-        end_pos = np.array(end_coords)
+        # Current Cartesian
+        start_x, start_y, start_z = self.forward_kinematics(curr_theta1, curr_theta2, curr_d3)
         
-        # Calculate Constant Cartesian Velocity required to reach target in 'duration'
-        # v = dX / dt
-        total_displacement = end_pos - start_pos
-        velocity_vector = total_displacement / duration
+        # Velocity vector
+        vx = (target_x - start_x) / duration
+        vy = (target_y - start_y) / duration
+        vz = (target_z - start_z) / duration
         
         trajectory_points = []
         steps = int(duration / dt)
         
+        q = np.array([curr_theta1, curr_theta2])
+        d3 = curr_d3
+        
         for i in range(steps + 1):
             t = i * dt
             
-            # Store current point
-            trajectory_points.append((t, current_theta[0], current_theta[1]))
+            # Store point
+            trajectory_points.append((t, q[0], q[1], d3))
             
-            # 1. Calculate Jacobian at current configuration
-            J = self.jacobian(current_theta[0], current_theta[1])
-            
-            # 2. Solve for Joint Velocities: J * q_dot = v
-            # Using pinv which is the solution to Min ||q_dot||^2 s.t. J*q_dot = v
-            # This is the Lagrange Multiplier application result.
+            # Differential Kinematics for X-Y
+            J = self.jacobian(q[0], q[1])
             try:
                 J_inv = np.linalg.pinv(J)
-                q_dot = np.dot(J_inv, velocity_vector)
-            except np.linalg.LinAlgError:
-                # Singularity handling: just stop or use damping
-                q_dot = np.array([0.0, 0.0])
+                q_dot = np.dot(J_inv, np.array([vx, vy]))
+            except:
+                q_dot = np.zeros(2)
             
-            # 3. Integrate (Euler Integration) -> q_new = q + q_dot * dt
-            current_theta = current_theta + q_dot * dt
-            
-            # Optional: Feedback Correction (Closed Loop) to prevent drift
-            # Not strictly part of the differential optimization but good for practice
-            # projected_pos = start_pos + velocity_vector * (t + dt)
-            # actual_pos = np.array(self.forward_kinematics(*current_theta))
-            # error = projected_pos - actual_pos
-            # current_theta += np.dot(J_inv, error) * 0.1 # Gain
+            # Integration
+            q = q + q_dot * dt
+            d3 = d3 - vz * dt # d3 decreases to increase Z height
             
         return trajectory_points
 

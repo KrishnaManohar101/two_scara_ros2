@@ -8,14 +8,49 @@ from launch.event_handlers import OnProcessExit
 def generate_launch_description():
     pkg_share = get_package_share_directory('two_scara_collaboration')
     
-    # Path to World URDF
-    world_urdf = os.path.join(pkg_share, 'urdf', 'world.urdf.xacro')
+    from launch.actions import DeclareLaunchArgument
+    from launch.substitutions import LaunchConfiguration
 
-    # Process XACRO
-    import xacro
-    doc = xacro.process_file(world_urdf)
-    robot_desc = doc.toxml()
+    # 1. Declare profile argument
+    profile_arg = DeclareLaunchArgument(
+        'profile',
+        default_value='default',
+        description='Robot visual profile: slim, heavy, or default'
+    )
     
+    profile = LaunchConfiguration('profile')
+
+    # Path to World URDF
+    world_urdf_path = os.path.join(pkg_share, 'urdf', 'world.urdf.xacro')
+
+    # We need to process xacro inside the launch description or use a function
+    # For simplicity in this setup, we'll use a hack to get the value since we are in generate_launch_description
+    # Note: In a production ROS2 launch, we should use Command() substitution.
+    
+    def get_xacro_desc(context):
+        p = context.launch_configurations['profile']
+        thickness = "0.1"
+        if p == 'slim': thickness = "0.05"
+        elif p == 'heavy': thickness = "0.15"
+        
+        import xacro
+        doc = xacro.process_file(world_urdf_path, mappings={'robot_thickness': thickness})
+        return doc.toxml()
+
+    from launch.actions import OpaqueFunction
+    def render_xacro(context, *args, **kwargs):
+        robot_desc = get_xacro_desc(context)
+        
+        # Robot State Publisher (Global)
+        rsp_node = Node(
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            name='robot_state_publisher',
+            output='screen',
+            parameters=[{'robot_description': robot_desc, 'use_sim_time': True}],
+        )
+        return [rsp_node]
+
     # Sim Time
     use_sim_time = {'use_sim_time': True}
 
@@ -31,14 +66,6 @@ def generate_launch_description():
         output='screen'
     )
 
-    # Robot State Publisher (Global)
-    rsp = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        name='robot_state_publisher',
-        output='screen',
-        parameters=[{'robot_description': robot_desc, 'use_sim_time': True}],
-    )
     
     # Spawn Entity (World) - Delayed to wait for Gazebo
     spawn_robot = Node(
@@ -150,13 +177,14 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        profile_arg,
         gz_server,
         gz_client,
-        rsp,
+        OpaqueFunction(function=render_xacro),
         delayed_spawn_robot,
         # delayed_block_spawner,
         block_publisher,
-        # conveyor_driver, # Run manually: python3 src/.../conveyor_driver.py
+        # conveyor_driver, 
         scara_left_planner,
         scara_right_planner,
         gripper_server,

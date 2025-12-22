@@ -27,7 +27,20 @@ def generate_launch_description():
     # Simulation parameters
     use_sim_time = True
     
+    from launch.actions import DeclareLaunchArgument
+    from launch.substitutions import LaunchConfiguration
+
+    # 1. Declare profile argument
+    profile_arg = DeclareLaunchArgument(
+        'profile',
+        default_value='default',
+        description='Robot visual profile: slim, heavy, or default'
+    )
+    
+    profile = LaunchConfiguration('profile')
+
     launch_description_content = [
+        profile_arg,
         # Gazebo Server with pause=true initially
         ExecuteProcess(
             cmd=[
@@ -56,6 +69,7 @@ def generate_launch_description():
                 {'scara_left_urdf': scara_left_urdf},
                 {'scara_right_urdf': scara_right_urdf},
                 {'conveyor_urdf': conveyor_urdf},
+                {'profile': profile}
             ]
         ),
         

@@ -11,13 +11,16 @@
   <!-- Instantiate Elements -->
 
 
+  <!-- Arguments -->
+  <xacro:arg name="robot_thickness" default="0.1"/>
+
   <!-- Left Robot -->
   <joint name="scara_left_to_world" type="fixed">
     <parent link="world"/>
     <child link="scara_left_base_link"/>
     <origin xyz="2 -2 0.2" rpy="0 0 0"/>
   </joint>
-  <xacro:scara_left_robot/>
+  <xacro:scara_left_robot thickness="$(arg robot_thickness)"/>
 
   <!-- Right Robot -->
   <joint name="scara_right_to_world" type="fixed">
@@ -25,7 +28,7 @@
     <child link="scara_right_base_link"/>
     <origin xyz="2 2 0.2" rpy="0 0 0"/>
   </joint>
-  <xacro:scara_right_robot/>
+  <xacro:scara_right_robot thickness="$(arg robot_thickness)"/>
 
 
 

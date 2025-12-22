@@ -63,7 +63,7 @@ ros-humble-xacro
     ```
 2.  **Clone the Repository**:
     ```bash
-    git clone https://github.com/yangliu28/two_scara_collaboration.git
+    git clone https://github.com/KrishnaManohar101/two_scara_ros2.git
     ```
     *(Note: Ensure this folder is named `two_scara_collaboration` or placed correctly inside `src`)*
 
@@ -83,7 +83,7 @@ ros-humble-xacro
 ### Launching the Simulation
 To start the Gazebo simulation with both robots, controllers, and the layout:
 ```bash
-ros2 launch two_scara_collaboration gazebo.launch.py
+ros2 launch two_scara_ros2 gazebo.launch.py
 ```
 This will:
 - Open Gazebo.
@@ -97,12 +97,12 @@ The system includes motion planner nodes that listen for targets. You can publis
 
 **Left Robot Planner**:
 ```bash
-ros2 run two_scara_collaboration scara_left_motion_planner.py
+ros2 run two_scara_ros2 scara_left_motion_planner.py
 ```
 
 **Right Robot Planner**:
 ```bash
-ros2 run two_scara_collaboration scara_right_motion_planner.py
+ros2 run two_scara_ros2 scara_right_motion_planner.py
 ```
 
 ## Technical Highlights

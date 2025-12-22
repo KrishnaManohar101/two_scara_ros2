@@ -11,6 +11,19 @@
 \usepackage{caption}
 \usepackage{titlesec}
 \usepackage{parskip}
+\usepackage{listings}
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    commentstyle=\color{green!50!black},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    captionpos=b
+}
 
 % Setup specific logic for math symbols
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
@@ -489,5 +502,72 @@ $K_p$ & 10.0 & - \\
 \end{tabular}
 \caption{System Constants}
 \end{table}
+
+
+\newpage
+\subsection{D. Implementation of Dynamics and Differential Kinematics}
+
+This appendix provides the core code snippets responsible for the dynamic behavior and differential control of the system.
+
+\subsubsection{1. Python Differential Kinematics (Jacobian Integration)}
+The following code from `kinematics.py` demonstrates the implementation of differential kinematics for straight-line trajectory generation. It uses the Jacobian pseudo-inverse to solve for joint velocities ($\dot{q} = J^{\dagger} v$), effectively handling the differential relationship between task space and joint space.
+
+\begin{lstlisting}[language=Python, caption=Differential Kinematics Implementation]
+    def generate_straight_line_path(self, start_joints, end_coords, duration=2.0, dt=0.05):
+        """
+        Generates a trajectory using Differential Kinematics.
+        Minimizes joint velocity deviations while maintaining a straight line path.
+        """
+        # ... (setup code omitted) ...
+        
+        for i in range(steps + 1):
+            t = i * dt
+            
+            # 1. Calculate Jacobian at current configuration
+            J = self.jacobian(current_theta[0], current_theta[1])
+            
+            # 2. Solve for Joint Velocities: J * q_dot = v
+            # Using pinv which is the solution to Min ||q_dot||^2 s.t. J*q_dot = v
+            try:
+                J_inv = np.linalg.pinv(J)
+                q_dot = np.dot(J_inv, velocity_vector)
+            except np.linalg.LinAlgError:
+                # Singularity handling fallback
+                q_dot = np.array([0.0, 0.0])
+            
+            # 3. Integrate (Euler Integration) -> q_new = q + q_dot * dt
+            current_theta = current_theta + q_dot * dt
+            
+            trajectory_points.append((t, current_theta[0], current_theta[1]))
+            
+        return trajectory_points
+\end{lstlisting}
+
+\subsubsection{2. URDF Inertial Definitions}
+The physical simulation in Gazebo relies on precise mass and inertia definitions. The following snippet from `scara_left.urdf.xacro` defines the inertial properties for Link 1.
+
+\begin{lstlisting}[language=XML, caption=URDF Inertial Block for Link 1]
+  <!-- Link 1 Inertial Properties -->
+  <link name="scara_left_link_1">
+    <inertial>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+    <!-- ... collision and visual tags omitted ... -->
+  </link>
+\end{lstlisting}
+
+\subsubsection{3. Controller Dynamics Configuration}
+The active dynamics are governed by the PID gains and torque limits defined in `scara_left_controllers.yaml`. These limits ensure the generated commands do not exceed physical capabilities.
+
+\begin{lstlisting}[language=yaml, caption=Controller Dynamics Parameters]
+# PD Controller Parameters
+pd_controller:
+  kp: [15.0, 15.0]  # Proportional gains for joints
+  kd: [2.0, 2.0]    # Derivative gains for joints
+  max_torque: [100.0, 100.0]  # Maximum torque (Nm)
+  max_velocity: [2.0, 2.0]    # Maximum velocity (rad/s)
+\end{lstlisting}
 
 \end{document}
