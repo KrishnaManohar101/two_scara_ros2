@@ -105,6 +105,37 @@ ros2 run two_scara_ros2 scara_left_motion_planner.py
 ros2 run two_scara_ros2 scara_right_motion_planner.py
 ```
 
+### Interactive Control Scripts
+We provide standalone Python scripts for testing specific robot capabilities without running the full ROS planner stack.
+
+#### 1. Direct Joint Control (Kinematics Verification)
+Manually set joint angles and verify Forward Kinematics.
+```bash
+python3 direct_joint_control.py
+```
+*   **Input**: Joint 1 (deg), Joint 2 (deg), Z-Axis (m).
+*   **Features**: Validates inputs against joint limits and verifies end-effector position.
+
+#### 2. Forward Dynamics Simulator (Torque Control)
+Simulate robot motion under applied torque/force over time.
+```bash
+python3 torque_control_sim.py
+```
+*   **Input**: Torque J1 (Nm), Torque J2 (Nm), Force Z (N), Duration (s).
+*   **Features**: Uses Lagrangian dynamics (Inverse Mass Matrix) to calculate acceleration and integrate position.
+
+#### 3. Keyboard Teleoperation
+Control the robot joints using arrow keys.
+```bash
+python3 keyboard_joint_control.py
+```
+
+### Motion Planners (ROS 2)
+The system includes motion planner nodes that listen for targets:
+```bash
+ros2 run two_scara_ros2 scara_left_motion_planner.py
+ros2 run two_scara_ros2 scara_right_motion_planner.py
+```
 Safety margins are applied (e.g., 99% max reach) to prevent locking.
 
 ## 📖 Research and Documentation
