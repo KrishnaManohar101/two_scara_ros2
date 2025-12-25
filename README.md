@@ -105,19 +105,25 @@ ros2 run two_scara_ros2 scara_left_motion_planner.py
 ros2 run two_scara_ros2 scara_right_motion_planner.py
 ```
 
-## Technical Highlights
-
-### Coordinate Systems
-- **World Frame**: Global reference at $(0,0,0)$.
-- **Base Frames**: Local frames for each robot, offset from World.
-- **Transformation**: $P_{world} = P_{local} + P_{base}$.
-
-### Singularity Management
-The system monitors the Jacobian determinant $\det(J) = L_1 L_2 \sin(\theta_2)$ to avoid:
-- **Outer Singularity**: $\theta_2 = 0^\circ$ (Full extension)
-- **Inner Singularity**: $\theta_2 = 180^\circ$ (Folded back)
-
 Safety margins are applied (e.g., 99% max reach) to prevent locking.
+
+## 📖 Research and Documentation
+For a comprehensive academic and technical deep dive, including all mathematical derivations (Lagrangian Dynamics, Trajectory Optimization via Lagrange Multipliers), please refer to:
+
+👉 **[RESEARCH_PAPER_FULL.md](RESEARCH_PAPER_FULL.md)**
+
+### Mapping Paper to Code
+This project bridges the gap between advanced mathematical theory and robotics implementation. Below is a map of where paper concepts reside in the source code:
+
+| Paper Section | Topic | Source File / Implementation |
+| :--- | :--- | :--- |
+| **Chapter 3** | Forward & Inverse Kinematics | `kinematics.py` -> `SCARAKinematics.forward_kinematics`, `inverse_kinematics` |
+| **Chapter 4** | Jacobian & Singularities | `kinematics.py` -> `SCARAKinematics.jacobian` |
+| **Chapter 5** | Lagrangian Dynamics | `kinematics.py` -> `SCARAKinematics.calculate_dynamics` |
+| **Chapter 6** | Mirroring & Collaboration | `scara_right_motion_planner.py` (Replication Logic) |
+| **Chapter 7** | Lagrange Multiplier Optimization | `kinematics.py` -> `generate_straight_line_path` |
+| **Chapter 8** | Simulation & Launch | `launch/gazebo.launch.py`, `urdf/scara_left.urdf.xacro` |
+| **Chapter 9** | Results & Data Logging | `replication_data.csv` (Logged simulation output) |
 
 ## License
 This project is licensed under the Apache License 2.0.

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual SCARA Robotics Presentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Space+Mono&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --accent-cyan: #00f2ff;
+            --accent-magenta: #ff00ff;
+            --bg-dark: #0a0b10;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .reveal {
+            font-family: 'Outfit', sans-serif;
+            color: #e0e0e0;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3 {
+            font-family: 'Outfit', sans-serif;
+            text-transform: none;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+        }
+
+        .reveal .slides section {
+            text-align: left;
+        }
+
+        .title-slide {
+            text-align: center !important;
+        }
+
+        .title-slide h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .math {
+            font-family: 'Space Mono', monospace;
+            background: rgba(0, 242, 255, 0.05);
+            padding: 20px;
+            border-left: 4px solid var(--accent-cyan);
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 0.8em !important;
+        }
+
+        .highlight-cyan {
+            color: var(--accent-cyan);
+        }
+
+        .highlight-magenta {
+            color: var(--accent-magenta);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0, 242, 255, 0.2);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(0, 242, 255, 0.1);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 20px;
+            font-size: 0.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none !important;
+        }
+
+        ul li::before {
+            content: "▹";
+            color: var(--accent-cyan);
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 0.4em;
+            opacity: 0.5;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Title -->
+            <section class="title-slide"
+                data-background-image="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2070"
+                data-background-opacity="0.2">
+                <div class="badge">Mathematical Intelligent Systems</div>
+                <h1>Dual SCARA<br>Collaboration System</h1>
+                <p>Advanced Trajectory Optimization & Synchronous Control</p>
+                <div style="margin-top: 50px; font-size: 0.8em; opacity: 0.7;">
+                    <p>Presented by: [Krishna Manohar]</p>
+                    <p>ROS 2 Humble | Gazebo | Python</p>
+                </div>
+            </section>
+
+            <!-- Slide 2: Introduction -->
+            <section>
+                <h2>Introduction</h2>
+                <div class="grid-2">
+                    <div>
+                        <p>SCARA robots are the backbone of modern assembly lines due to their <strong>selective
+                                compliance</strong>.</p>
+                        <ul>
+                            <li>High rigidity in the vertical (Z) axis.</li>
+                            <li>Exceptional speed in the horizontal (X-Y) plane.</li>
+                            <li>Ideal for Pick-and-Place & Sorting tasks.</li>
+                        </ul>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1565515267651-752a5aa1982b?auto=format&fit=crop&q=80&w=600"
+                        class="hero-img" alt="Industrial Robot">
+                </div>
+            </section>
+
+            <!-- Slide 3: Objectives -->
+            <section>
+                <h2>Project Objectives</h2>
+                <div class="grid-2">
+                    <ul>
+                        <li><span class="highlight-cyan">High-Fidelity Simulation:</span> Modeling dual SCARA robots in
+                            Gazebo with realistic physics.</li>
+                        <li><span class="highlight-cyan">3D Degree of Freedom:</span> Implementation of prismatic Z-axis
+                            for insertion tasks.</li>
+                        <li><span class="highlight-cyan">Trajectory Optimization:</span> Utilizing Lagrange Multipliers
+                            for straight-line paths.</li>
+                        <li><span class="highlight-cyan">Collaboration:</span> Master-Slave mirroring for synchronized
+                            operation.</li>
+                    </ul>
+                    <div style="background: rgba(255,255,255,0.03); padding: 30px; border-radius: 20px;">
+                        <h4 style="color: var(--accent-magenta)">Key Metric</h4>
+                        <p style="font-size: 1.5em; margin: 0;">0.4m → 0.001m</p>
+                        <p style="font-size: 0.7em; opacity: 0.6;">Path deviation reduction via optimization</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: Forward Kinematics -->
+            <section>
+                <h2>Forward Kinematics (FK)</h2>
+                <p>Mapping Joint Angles to 3D Space</p>
+
+                <div class="math">
+                    <span class="highlight-cyan">// 2D Revolute Planar Projection</span><br>
+                    x = L₁ cos(θ₁) + L₂ cos(θ₁ + θ₂)<br>
+                    y = L₁ sin(θ₁) + L₂ sin(θ₁ + θ₂)
+                </div>
+
+                <div class="math">
+                    <span class="highlight-magenta">// Prismatic Vertical Joint</span><br>
+                    z = H_base - d₃
+                </div>
+                <p style="font-size: 0.7em; opacity: 0.8;">The FK calculation uses trigonometric vector addition to
+                    determine the precise location of the end-effector based on the current state of all three joints.
+                </p>
+            </section>
+
+            <!-- Slide 5: Inverse Kinematics -->
+            <section>
+                <h2>Inverse Kinematics (IK)</h2>
+                <p>The Geometric Solution (Law of Cosines)</p>
+
+                <div class="math">
+                    <span class="highlight-cyan">// Joint 2 Angle</span><br>
+                    θ₂ = cos⁻¹((x² + y² - L₁² - L₂²) / 2L₁L₂)
+                </div>
+
+                <div class="math">
+                    <span class="highlight-magenta">// Joint 1 Angle</span><br>
+                    θ₁ = atan2(y, x) - atan2(L₂ sin θ₂, L₁ + L₂ cos θ₂)
+                </div>
+                <p style="font-size: 0.7em; opacity: 0.8;">Our solver handles both 'Elbow-Up' and 'Elbow-Down' solutions
+                    and rejects coordinates outside the toroidal workspace (R_max = 2.5m).</p>
+            </section>
+
+            <!-- Slide 6: Dynamics -->
+            <section>
+                <h2>Robot Dynamics</h2>
+                <p>Lagrangian Physics & Inertia</p>
+
+                <div class="math">
+                    <span class="highlight-cyan">// Mass Matrix Element (Inertia)</span><br>
+                    M₁₁ = (m₁+m₂+mₚ)L₁² + (m₂+mₚ)(L₂² + 2L₁L₂ cos θ₂)
+                </div>
+
+                <div class="math">
+                    <span class="highlight-magenta">// Vertical Gravity Compensation</span><br>
+                    G₃ = (mass_link + mass_payload) * g
+                </div>
+                <p style="font-size: 0.7em; opacity: 0.8;">By modeling the mass of link segments and variable payloads,
+                    the system calculates the exact required torques for smooth, physics-aware motion.</p>
+            </section>
+
+            <!-- Slide 7: Optimization -->
+            <section>
+                <h2>Trajectory Optimization</h2>
+                <p>Applying Unit-1: Lagrange Multipliers</p>
+
+                <div style="font-size: 0.9em">
+                    <p>Problem: Move in a perfect straight line while minimizing joint velocities.</p>
+                    <div class="math" style="border-left-color: var(--accent-magenta)">
+                        <strong>Minimize:</strong> f(θ̇) = ½ θ̇ᵀ θ̇ <br>
+                        <strong>Subject to:</strong> g(θ̇) = J(θ)θ̇ - v_target = 0
+                    </div>
+                    <p>The Lagrangian Solution yields the Control Law:</p>
+                    <div class="math">
+                        θ̇* = Jᵀ(JJᵀ)⁻¹ v_target = J⁺ v_target
+                    </div>
+                    <p style="font-size: 0.8em; opacity: 0.8;">This ensures <span class="highlight-cyan">Straight-Line
+                            Motion</span>, crucial for avoid conveyor collisions.</p>
+                </div>
+            </section>
+
+            <!-- Slide 8: System Architecture -->
+            <section>
+                <h2>System Architecture</h2>
+                <div class="grid-2">
+                    <div>
+                        <h3>Software Stack</h3>
+                        <ul>
+                            <li>ROS 2 Humble</li>
+                            <li>Gazebo Classic (Simulation)</li>
+                            <li>ros2_control (Trajectory Exec)</li>
+                            <li>Python 3 (High-level Logic)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Node Topology</h3>
+                        <div class="math" style="font-size: 0.6em !important;">
+                            [Automation Mgr] → [Motion Planners] → [Robot Hardware]
+                            ↓ ↓
+                            [CSV Logger] [FK/IK Engines]
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 9: Collaboration -->
+            <section>
+                <h2>Dual Robot Collaboration</h2>
+                <p>The Mirroring Architecture</p>
+                <div class="grid-2">
+                    <div>
+                        <p>The system operates in a <span class="highlight-cyan">Symmetric Mode</span> across the
+                            conveyor axis.</p>
+                        <div class="math" style="border-left-color: var(--accent-magenta)">
+                            P_Slave = T_mirror * P_Master <br><br>
+                            T_mirror = [ 1 0 ]<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ 0 -1 ]
+                        </div>
+                    </div>
+                    <div
+                        style="background: rgba(0,242,255,0.05); padding: 20px; border-radius: 10px; border: 1px dashed var(--accent-cyan);">
+                        <p style="font-size: 0.7em;">This allows for double the sorting throughput with unified command
+                            logic.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 10: Real-time Monitor -->
+            <section>
+                <h2>Live Monitoring Dashboard</h2>
+                <p>Telemetry & Diagnostics</p>
+                <ul>
+                    <li><span class="highlight-cyan">FK Verification:</span> Real-time Cartesian feedback.</li>
+                    <li><span class="highlight-cyan">IK Solver Check:</span> Ensuring joint convergence.</li>
+                    <li><span class="highlight-cyan">Dynamic Force Sensing:</span> Monitoring torque scaling with
+                        respect to payload mass (Gravity Compensation).</li>
+                </ul>
+                <div
+                    style="margin-top: 30px; padding: 20px; background: #000; border: 1px solid #333; font-family: 'Space Mono'; color: #0f0; font-size: 0.5em;">
+                    READY: Robot Left - Target: [2.5, -1.0, -0.4]<br>
+                    CALCULATING LAGRANGE OPTIMIZATION...<br>
+                    SUCCESS: J_Norm reduced by 22% compared to Joint Interpolation.
+                </div>
+            </section>
+
+            <!-- Slide 11: Conclusion -->
+            <section style="text-align: center !important;">
+                <h2>Conclusion</h2>
+                <p>A bridge between Mathematical Theory and Robotics Application.</p>
+                <div style="margin-top: 50px;">
+                    <div class="badge" style="border-color: var(--accent-magenta); color: var(--accent-magenta)">
+                        Achievement</div>
+                    <p>Successfully integrated <strong>Lagrange Multipliers</strong> into a real-time ROS 2 simulation,
+                        proving that mathematical optimization significantly enhances industrial robot reliability.</p>
+                </div>
+                <div style="margin-top: 50px; font-size: 0.8em; opacity: 0.5;">
+                    Questions?
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="footer">DUAL-SCARA ROBOTICS | MIS 2025 | PRESENTATION</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            center: true,
+            transition: 'convex', // none/fade/slide/convex/concave/zoom
+            backgroundTransition: 'fade',
+            controls: true,
+            progress: true,
+            mouseWheel: true,
+            margin: 0.1,
+            minScale: 0.2,
+            maxScale: 2.0
+        });
+    </script>
+</body>
+
+</html>

@@ -15,6 +15,9 @@ class PremiumDashboard(Node):
     def __init__(self):
         super().__init__('premium_dashboard')
         
+        # Clear screen once at start
+        os.system('cls' if os.name == 'nt' else 'clear')
+        
         # --- Live Physical State ---
         self.mass = 2.0
         self.gravity = 9.81
@@ -77,11 +80,13 @@ class PremiumDashboard(Node):
         torques = self.engine.calculate_dynamics(self.q[0], self.q[1], nominal_accel)
         
         # 3. RENDER (Using ANSI to reduce flicker)
-        sys.stdout.write("\033[H") # Move to top
+        # \033[H moves cursor to top left, \033[J clears from cursor to end of screen
+        sys.stdout.write("\033[H\033[J") 
         out = []
-        out.append("\033[94m" + "╔══════════════════════════════════════════════════════════╗" + "\033[0m")
-        out.append("\033[94m" + "║         SCARA MASTER COMMAND TELEMETRY DASHBOARD         ║" + "\033[0m")
-        out.append("\033[94m" + "╠══════════════════════════════════════════════════════════╣" + "\033[0m")
+        border = "\033[94m" + "╔" + "═"*58 + "╗" + "\033[0m"
+        title  = "\033[94m" + "║" + "         SCARA MASTER COMMAND TELEMETRY DASHBOARD         ".center(58) + "║" + "\033[0m"
+        sep_mid = "\033[94m" + "╠" + "═"*58 + "╣" + "\033[0m"
+        out.extend([border, title, sep_mid])
         
         # --- PHYSICAL CONSTANTS ---
         out.append(f"  PAYLOAD MASS:  {self.mass:5.1f} kg  {self.draw_bar(self.mass, 0, 10)}  (Key: M/N)")
@@ -99,14 +104,15 @@ class PremiumDashboard(Node):
         out.append("\033[93m" + f"  [INVERSE DYNAMICS: FORCE/TORQUE ESTIMATION]" + "\033[0m")
         out.append(f"  J1 SHOULDER TORQUE: {torques[0]:7.2f} Nm  {self.draw_bar(abs(torques[0]),0,100)}")
         out.append(f"  J2 ELBOW TORQUE:    {torques[1]:7.2f} Nm  {self.draw_bar(abs(torques[1]),0,50)}")
-        out.append(f"  J3 VERTICAL FORCE:  {torques[2]:7.2f} N   {self.draw_bar(abs(torques[2]),0,150)}")
+        out.append(f"  D3 VERTICAL FORCE:  {torques[2]:7.2f} N   {self.draw_bar(abs(torques[2]),0,150)}")
         
-        # --- RAW INPUTSection ---
+        # --- RAW INPUT ---
         out.append("╟──────────────────────────────────────────────────────────╢")
         out.append(f"  LIVE JOINT INPUT:  [{self.q[0]:5.2f}, {self.q[1]:5.2f}, {self.q[2]:5.2f}]")
-        out.append("\033[94m" + "╚══════════════════════════════════════════════════════════╝" + "\033[0m")
+        out.append("\033[94m" + "╚" + "═"*58 + "╝" + "\033[0m")
         
-        sys.stdout.write("\n".join(out) + "\n")
+        # Write it all at once - use \r\n for raw terminal compatibility
+        sys.stdout.write("\r\n".join(out) + "\r\n")
         sys.stdout.flush()
 
 def main():

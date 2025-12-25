@@ -50,6 +50,9 @@ class AutomationManager(Node):
         self.log_file = 'replication_data.csv'
         self.init_log_file()
         
+        self.last_joint_positions = None
+        self.last_right_joint_positions = None
+        
         self.get_logger().info('Automation Manager Initialized. Type coordinates in terminal!')
         
         # Thread for Manual Input
@@ -57,14 +60,11 @@ class AutomationManager(Node):
         self.input_thread.daemon = True
         self.input_thread.start()
         
-        self.timer = self.create_timer(0.5, self.control_loop)
+        self.timer = self.create_timer(0.1, self.control_loop) # Fast response
         
-        # Joint State Subscriber for Timing
+        # Joint State Subscriber
         self.create_subscription(JointState, '/joint_states', self.joint_state_callback, 10)
         self.has_started_physically = False
-        self.settle_start_time = None
-        self.actual_duration = None
-        self.last_joint_positions = None
 
     def input_loop(self):
         time.sleep(1.0)
@@ -89,60 +89,36 @@ class AutomationManager(Node):
                 break
 
     def joint_state_callback(self, msg):
-        """Monitors position changes to detect when robot actually stops"""
-        if self.state != 'MOVING':
-            self.last_joint_positions = None
-            return
-            
+        """Monitors position changes for both robots"""
         try:
-            # Extract positions of Left Robot Joints
-            current_positions = []
-            valid_names = ['scara_left_joint_1', 'scara_left_joint_2', 'scara_left_gripper_joint']
-            
-            for name in valid_names:
-                if name in msg.name:
-                    idx = msg.name.index(name)
-                    if len(msg.position) > idx:
-                        current_positions.append(msg.position[idx])
-            
-            if len(current_positions) != 2:
-                return
+            # Helper to extract joint positions by prefix [Joint1, Joint2, Gripper]
+            def get_positions(prefix):
+                pos = []
+                # Match URDF joint names
+                names = [f'{prefix}_joint_1', f'{prefix}_joint_2', f'{prefix}_gripper_joint']
+                for name in names:
+                    if name in msg.name:
+                        idx = msg.name.index(name)
+                        if len(msg.position) > idx:
+                            pos.append(msg.position[idx])
+                return pos
 
-            current_time = time.time()
-            
-            # Initialize history
-            if self.last_joint_positions is None:
-                self.last_joint_positions = current_positions
-                return
+            left_pos = get_positions('scara_left')
+            right_pos = get_positions('scara_right')
 
-            # Calculate total change in position (motion)
-            delta = sum([abs(c - l) for c, l in zip(current_positions, self.last_joint_positions)])
-            self.last_joint_positions = current_positions # Update for next frame
-            
-            # Threshold for "Moving"
-            MOTION_THRESHOLD = 0.0001
-            
-            # 1. Detect motion start
-            if delta > MOTION_THRESHOLD: 
-                self.has_started_physically = True
-                self.settle_start_time = None 
-                
-            # 2. Detect motion stop
-            if self.has_started_physically and delta < MOTION_THRESHOLD:
-                if self.settle_start_time is None:
-                    self.settle_start_time = current_time
-                elif current_time - self.settle_start_time > 0.5:
-                    # Stable for 0.5s -> Stopped
-                    if self.actual_duration is None:
-                        self.actual_duration = self.settle_start_time - self.move_start_time
+            if len(left_pos) == 3:
+                self.last_joint_positions = left_pos
+            if len(right_pos) == 3:
+                self.last_right_joint_positions = right_pos
 
         except Exception as e:
-            self.get_logger().error(f"Error in callback: {e}")
+            self.get_logger().error(f"Error in joint_state_callback: {e}")
 
     def execute_smooth_motion(self, arm_pub, quill_pub, start_joints, target_joints, duration=2.0):
-        """Interpolates and publishes commands sequentially: XY first, then Z"""
-        # Step 1: Translation (X-Y Plane)
+        """Sequential Motion with Active Locking: 1. Translation (XY), 2. Insertion (Z), 3. Withdrawal (Z)"""
         xy_start_time = time.time()
+        
+        # Step 1: Translation (X-Y Plane) - LOCK Z at start position
         print(f" -> Phase 1: TRANSLATION (Moving Arm to X,Y position)...")
         points = int(duration * 20)
         for i in range(points + 1):
@@ -150,23 +126,51 @@ class AutomationManager(Node):
             j1 = start_joints[0] + alpha * (target_joints[0] - start_joints[0])
             j2 = start_joints[1] + alpha * (target_joints[1] - start_joints[1])
             
+            # Active Locking: Send J1, J2 AND keep Z at start_joints[2]
             msg = Float64MultiArray()
             msg.data = [j1, j2]
             arm_pub.publish(msg)
+            
+            z_msg = Float64MultiArray()
+            z_msg.data = [-start_joints[2]] # Hold start Z (Z is inverted in URDF command usually)
+            quill_pub.publish(z_msg)
+            
             time.sleep(1.0 / 20.0)
         
-        # Step 2: Insertion (Z-Axis)
-        print(f" -> Phase 2: INSERTION (Moving Gripper to Z height)...")
+        # Step 2: Insertion (Z-Axis) - LOCK Arm at final target_joints[0,1]
+        print(f" -> Phase 2: INSERTION (Moving Gripper to target Z)...")
         for i in range(points + 1):
             alpha = i / points
-            # Keep X/Y at final target
             j3_math = start_joints[2] + alpha * (target_joints[2] - start_joints[2])
             
+            # Active Locking: Send new Z AND force J1, J2 to stay at target
             z_msg = Float64MultiArray()
             z_msg.data = [-j3_math] 
             quill_pub.publish(z_msg)
+            
+            msg = Float64MultiArray()
+            msg.data = [target_joints[0], target_joints[1]] # Hold final XY
+            arm_pub.publish(msg)
+            
             time.sleep(1.0 / 20.0)
-        
+
+        # Step 3: Withdrawal (Return Z) - LOCK Arm at final target_joints[0,1]
+        print(f" -> Phase 3: WITHDRAWAL (Returning Gripper to original height)...")
+        for i in range(points + 1):
+            alpha = i / points
+            j3_math = target_joints[2] - alpha * (target_joints[2] - start_joints[2])
+            
+            # Active Locking: Send returning Z AND force J1, J2 to stay at target
+            z_msg = Float64MultiArray()
+            z_msg.data = [-j3_math] 
+            quill_pub.publish(z_msg)
+            
+            msg = Float64MultiArray()
+            msg.data = [target_joints[0], target_joints[1]] # Hold final XY
+            arm_pub.publish(msg)
+            
+            time.sleep(1.0 / 20.0)
+            
         total_move_time = time.time() - xy_start_time
         return total_move_time
 
@@ -186,58 +190,70 @@ class AutomationManager(Node):
                  self.target_block = None
                  return
 
-            self.get_logger().info('Left Robot starting movement (Sequential XY then Z)...')
-            self.left_exec_time = self.send_arm_command(rel_x, rel_y, rel_z)
+            world_coord = self.manual_target_world
+            self.get_logger().info(f'World Target Received: {world_coord}')
+            self.get_logger().info(f'Left Robot (Base: {self.base_x}, {self.base_y}) -> Relative Target: ({rel_x:.2f}, {rel_y:.2f}, {rel_z:.2f})')
+            self.get_logger().info('Left Robot starting movement (XY -> Insertion -> Withdrawal)...')
             
             self.state = 'MOVING'
             self.move_start_time = time.time()
-            self.has_started_physically = False
-            self.actual_duration = None
             
+            # BLOCKING CALL - Executing motion
+            self.left_exec_time = self.send_arm_command(rel_x, rel_y, rel_z)
+            
+            # Movement finished
+            self.left_end_time = time.time()
+            self.get_logger().info(f'Left Robot Complete in {self.left_exec_time:.2f}s.')
+            self.state = 'IDLE'
+            
+            # Schedule Right Robot Replication
+            self.right_state = 'WAITING'
             self.target_block = None
             
         elif self.state == 'MOVING':
-            # Simplified for demo: wait for the smooth motion to end (4 seconds total)
-            if (time.time() - self.move_start_time) > 4.5:
-                self.left_end_time = time.time()
-                self.get_logger().info(f'Left Robot Complete in {self.left_exec_time:.2f}s.')
-                self.state = 'IDLE'
-                
-                # Schedule Right Robot
-                self.right_state = 'WAITING'
-                self.right_start_delay = time.time()
+            # This is a safety state; logic handled in blocking call above
+            pass
 
         # RIGHT ROBOT LOGIC (Replication)
         if self.right_state == 'WAITING':
-            # The delay after left robot finishes
             delay = time.time() - self.left_end_time
-            if delay >= 0.5: # 0.5 second safety delay
-                self.right_actual_start = time.time()
-                self.get_logger().info(f'Right Robot starting replication after {delay:.2f}s delay...')
-                
+            if delay >= 0.5: # Safety delay
                 rx, ry, rz = self.last_left_rel_target
-                self.right_exec_time = self.send_right_arm(rx, ry, rz)
+                right_base_x, right_base_y = 2.0, 2.0
+                
+                self.get_logger().info(f'Right Robot starting replication after {delay:.2f}s delay...')
+                self.get_logger().info(f'Right Robot (Base: {right_base_x}, {right_base_y}) -> Relative Target: ({rx:.2f}, {ry:.2f}, {rz:.2f})')
                 
                 self.right_state = 'MOVING'
                 self.right_move_start = time.time()
-
-        elif self.right_state == 'MOVING':
-             if time.time() - self.right_move_start > 4.5:
-                 total_combined_time = time.time() - self.total_start_time
-                 self.get_logger().info('--- PERFORMANCE SUMMARY ---')
-                 self.get_logger().info(f'Left Robot Time:  {self.left_exec_time:.2f}s')
-                 self.get_logger().info(f'Inter-Robot Delay: {0.50:.2f}s')
-                 self.get_logger().info(f'Right Robot Time: {self.right_exec_time:.2f}s')
-                 self.get_logger().info(f'TOTAL MISSION TIME: {total_combined_time:.2f}s')
-                 self.get_logger().info('---------------------------')
-                 self.right_state = 'IDLE'
+                
+                # BLOCKING CALL
+                self.right_exec_time = self.send_right_arm(rx, ry, rz)
+                
+                # Replication finished
+                total_combined_time = time.time() - self.total_start_time
+                world_coord = self.manual_target_world
+                
+                self.get_logger().info('--- PERFORMANCE SUMMARY ---')
+                self.get_logger().info(f'Target World Coord: {world_coord}')
+                self.get_logger().info(f'Relative Movement:  ({rx:.2f}, {ry:.2f}, {rz:.2f})')
+                self.get_logger().info(f'Left Robot Time:    {self.left_exec_time:.2f}s (3-Phase)')
+                self.get_logger().info(f'Inter-Robot Delay:  {delay:.2f}s')
+                self.get_logger().info(f'Right Robot Time:   {self.right_exec_time:.2f}s (3-Phase)')
+                self.get_logger().info(f'TOTAL MISSION TIME:  {total_combined_time:.2f}s')
+                self.get_logger().info('---------------------------')
+                
+                self.right_state = 'IDLE'
 
     def send_arm_command(self, x, y, z):
         theta1, theta2, d3 = self.kinematics.inverse_kinematics(x, y, z, elbow='up')
         if theta1 is None: return 0.0
         
-        if self.last_joint_positions: start_joints = self.last_joint_positions
-        else: start_joints = [0.0, 0.0, 0.0] 
+        # Current state from feedback
+        if self.last_joint_positions: 
+            start_joints = self.last_joint_positions
+        else: 
+            start_joints = [0.0, 0.0, 0.0] 
 
         target_joints = [float(theta1), float(theta2), float(d3)]
         return self.execute_smooth_motion(self.arm_pub, self.quill_pub, start_joints, target_joints, duration=2.0)
@@ -246,61 +262,33 @@ class AutomationManager(Node):
         theta1, theta2, d3 = self.kinematics.inverse_kinematics(x, y, z, elbow='up')
         if theta1 is None: return 0.0
              
-        start_joints = [0.0, 0.0, 0.0] 
+        # Current state from feedback
+        if self.last_right_joint_positions:
+            start_joints = self.last_right_joint_positions
+        else:
+            start_joints = [0.0, 0.0, 0.0] 
+
         target_joints = [float(theta1), float(theta2), float(d3)]
         return self.execute_smooth_motion(self.right_arm_pub, self.right_quill_pub, start_joints, target_joints, duration=2.0)
 
     def init_log_file(self):
-        """Creates CSV file with headers if it doesn't exist or is outdated"""
+        """Creates CSV file with headers if it doesn't exist"""
         expected_header = [
-            'Timestamp', 
-            'Left_Input_World_X', 'Left_Input_World_Y',
-            'Left_Base_X', 'Left_Base_Y',
-            'Calculated_Rel_X', 'Calculated_Rel_Y', 
-            'Left_Duration_Sec',
-            'Right_Base_X', 'Right_Base_Y',
-            'Right_Output_World_X', 'Right_Output_World_Y'
+            'Timestamp', 'Left_In_X', 'Left_In_Y', 'Rel_X', 'Rel_Y', 'Duration', 'Right_Out_X', 'Right_Out_Y'
         ]
-        
-        should_write_header = False
-        
         if not os.path.exists(self.log_file):
-            should_write_header = True
-        else:
-            # Check if header matches
-            with open(self.log_file, 'r') as f:
-                header_line = f.readline().strip()
-                current_cols = header_line.split(',')
-                if len(current_cols) != len(expected_header):
-                    self.get_logger().warn("CSV Header mismatch detecting! Recreating log file...")
-                    should_write_header = True
-                    
-        if should_write_header:
             with open(self.log_file, 'w', newline='') as f:
                 writer = csv.writer(f)
                 writer.writerow(expected_header)
                 
     def log_calculation(self, rx, ry, rb_x, rb_y, rt_x, rt_y, duration):
-        """Saves the replication calculation details to CSV"""
-        # Reconstruct Left Input for records
+        """Saves details to CSV"""
         left_in_x = self.base_x + rx
         left_in_y = self.base_y + ry
-        
         timestamp = datetime.now().strftime("%H:%M:%S")
-        
         with open(self.log_file, 'a', newline='') as f:
             writer = csv.writer(f)
-            data = [
-                timestamp,
-                f"{left_in_x:.2f}", f"{left_in_y:.2f}",
-                self.base_x, self.base_y,
-                f"{rx:.2f}", f"{ry:.2f}",
-                f"{duration:.2f}",
-                rb_x, rb_y,
-                f"{rt_x:.2f}", f"{rt_y:.2f}"
-            ]
-            writer.writerow(data)
-        self.get_logger().info(f"Calculation saved to {self.log_file}")
+            writer.writerow([timestamp, f"{left_in_x:.2f}", f"{left_in_y:.2f}", f"{rx:.2f}", f"{ry:.2f}", f"{duration:.2f}", f"{rt_x:.2f}", f"{rt_y:.2f}"])
 
 def main(args=None):
     rclpy.init(args=args)

@@ -48,6 +48,10 @@ class SCARAKinematics:
         
         return x, y, z
     
+
+
+
+    
     def inverse_kinematics(self, x, y, z, elbow='up'):
         """
         --- 3D INVERSE KINEMATICS EQUATION ---
@@ -104,6 +108,49 @@ class SCARAKinematics:
         force3  = M33 * q_ddot[2] + G3
         
         return [torque1, torque2, force3]
+
+    def forward_dynamics(self, theta1, theta2, torques):
+        """
+        --- FORWARD DYNAMICS ---
+        Calculate Joint Accelerations given Torques
+        Formula: q_ddot = inv(M) * (Torque - G)
+        (Neglecting Coriolis C for simplified SCARA model)
+        """
+        # --- A. Inertia / Mass Matrix M(q) ---
+        M11 = (self.m1 + self.m2 + self.m_p) * self.l1**2 + \
+              (self.m2 + self.m_p) * (self.l2**2 + 2 * self.l1 * self.l2 * np.cos(theta2))
+        M22 = (self.m2 + self.m_p) * self.l2**2
+        # Coupling terms (simplified assumption: diagonal M for basic understanding, 
+        # but real SCARA has off-diagonal M12/M21 terms)
+        # For a more accurate 2-link sim, we need the full matrix:
+        M12 = (self.m2 + self.m_p) * (self.l2**2 + self.l1 * self.l2 * np.cos(theta2))
+        M21 = M12 
+        
+        M = np.array([
+            [M11, M12],
+            [M21, M22]
+        ])
+        
+        # --- B. Gravity Vector G(q) ---
+        G = np.array([0.0, 0.0]) # X-Y Plane
+        
+        # --- C. Solve ---
+        # input torques is [tau1, tau2, force3]
+        tau_xy = np.array([torques[0], torques[1]])
+        
+        # Solve M * q_ddot_xy = tau_xy - G
+        try:
+            q_ddot_xy = np.linalg.solve(M, tau_xy - G)
+        except np.linalg.LinAlgError:
+            q_ddot_xy = np.zeros(2)
+            
+        # Z-axis dynamics (Decoupled)
+        # F = m * a + G  ->  a = (F - G) / m
+        M33 = self.m1 + self.m2 + self.m_p
+        G3 = (self.m2 + self.m_p) * self.g
+        a_z = (torques[2] - G3) / M33
+        
+        return [q_ddot_xy[0], q_ddot_xy[1], a_z]
     
     def jacobian(self, theta1, theta2):
         """2D Jacobian for horizontal motion"""
